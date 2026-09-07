@@ -1,0 +1,1 @@
+let player = loadPlayer();
