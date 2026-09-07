@@ -1,83 +1,103 @@
-const PLANET_DISTANCE = {
-    Earth: 100,
-    Moon: 100
-};
+// ORBIT // Space Journey & Manual Rocket Launch
 
+function launchRocket() {
+    if (!player) return;
 
-function startJourney() {
-
-    if (player.journey.currentPlanet !== "Earth") {
-        console.log("Journey cannot be started from here yet.");
-        return false;
-    }
-
-    console.log("🚀 Journey to the Moon started!");
-
-    return true;
-}
-
-
-function travel(amount) {
-
-    if (amount <= 0) {
-        console.log("Invalid travel amount.");
+    if (player.journey.progress >= 100 && player.journey.currentPlanet === "Moon") {
+        if (typeof showToast === "function") {
+            showToast("Moon reached! Prepare for Chapter 2: Mars Expedition.", "info");
+        }
         return;
     }
 
-    if (player.journey.progress >= 100) {
-        console.log("The Moon has already been reached.");
+    const availableFuel = player.fuelReady || 0;
+    if (availableFuel <= 0) {
+        if (typeof showToast === "function") {
+            showToast("No fuel ready! Save money in the Save tab to earn fuel.", "error");
+        }
+        if (typeof playSound === "function") playSound("error");
         return;
     }
 
-    // Fuel determines maximum distance per travel
-    const fuelCapacity = player.rocket.fuel * 25;
+    // Maximum fuel capacity the rocket can consume per launch
+    const maxBurn = (player.rocket.fuel || 1) * 25;
+    const burnAmount = Math.min(availableFuel, maxBurn);
 
-    if (amount > fuelCapacity) {
-        console.log(`Not enough fuel. Maximum travel: ${fuelCapacity}%`);
-        return;
-    }
+    player.fuelReady -= burnAmount;
 
-    // Engine increases travel speed
-    const speed = player.rocket.engine;
+    // Engine multiplier increases distance traveled
+    const engineMultiplier = player.rocket.engine || 1;
+    const progressGain = Math.max(2, Math.round((burnAmount / 8) * engineMultiplier));
 
-    player.journey.progress += amount * speed;
-
-    if (player.journey.progress >= 100) {
-        player.journey.progress = 100;
-        reachMoon();
-    }
-
-    // 25% chance of a discovery
-    if (Math.random() < 0.25) {
-        generateDiscovery();
-    }
+    player.journey.progress = Math.min(100, (player.journey.progress || 0) + progressGain);
 
     savePlayer(player);
 
-    console.log(`🚀 Journey progress: ${player.journey.progress}%`);
+    console.log(`🚀 Rocket Launched! Burned ${burnAmount} fuel. Progress is now ${player.journey.progress}%`);
+
+    // Trigger Launch Animation & Sound
+    if (typeof playSound === "function") {
+        playSound("thruster");
+    }
+
+    if (typeof animateRocketLaunchSequence === "function") {
+        animateRocketLaunchSequence(burnAmount, progressGain);
+    }
+
+    // Scanner Array increases chance of finding space relics
+    const scannerLevel = player.rocket.scanner || 1;
+    const discoveryChance = 0.25 + (scannerLevel - 1) * 0.08;
+
+    if (Math.random() < discoveryChance) {
+        setTimeout(() => {
+            generateDiscovery();
+        }, 800);
+    }
+
+    // Check if Moon reached!
+    if (player.journey.progress >= 100) {
+        setTimeout(() => {
+            reachMoon();
+        }, 1200);
+    }
+
+    if (typeof renderHUD === "function") {
+        renderHUD();
+    }
 }
 
-
 function reachMoon() {
-
     player.journey.currentPlanet = "Moon";
+    player.journey.targetPlanet = "Mars";
 
     if (!player.unlockedPlanets.includes("Moon")) {
         player.unlockedPlanets.push("Moon");
+        player.credits += 150; // Milestone bonus credits
     }
 
-    console.log("🌕 Moon reached!");
-    console.log("Moon unlocked!");
-
+    // Update to Moon Theme
+    player.currentTheme = "moon";
     savePlayer(player);
-}
 
+    if (typeof applyPlanetTheme === "function") {
+        applyPlanetTheme("moon");
+    }
+
+    if (typeof playSound === "function") {
+        playSound("arrival");
+    }
+
+    if (typeof showArrivalModal === "function") {
+        showArrivalModal("Moon", "Luna Gate Base");
+    } else if (typeof showToast === "function") {
+        showToast("🌕 Landing Successful! Moon Unlocked (+150 Credits)", "success");
+    }
+
+    if (typeof renderHUD === "function") {
+        renderHUD();
+    }
+}
 
 function getJourneyProgress() {
-    return player.journey.progress;
-}
-
-
-function getCurrentPlanet() {
-    return player.journey.currentPlanet;
+    return player ? player.journey.progress : 0;
 }

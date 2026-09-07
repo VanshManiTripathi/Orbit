@@ -1,0 +1,220 @@
+/* ORBIT // Clean Gamified Space Savings Stylesheet */
+
+:root {
+  --planet-primary: #00f0ff;
+  --planet-primary-dim: #38bdf8;
+  --planet-glow: rgba(0, 240, 255, 0.4);
+  --planet-border: rgba(0, 240, 255, 0.2);
+  --planet-surface: rgba(15, 19, 33, 0.85);
+  --planet-name: "Earth";
+}
+
+/* Earth Theme (Default) */
+html.theme-earth {
+  --planet-primary: #00f0ff;
+  --planet-primary-dim: #38bdf8;
+  --planet-glow: rgba(0, 240, 255, 0.4);
+  --planet-border: rgba(0, 240, 255, 0.2);
+}
+
+/* Moon Theme (Silver & Lavender Glow) */
+html.theme-moon {
+  --planet-primary: #d0bcff;
+  --planet-primary-dim: #c4b5fd;
+  --planet-glow: rgba(208, 188, 255, 0.45);
+  --planet-border: rgba(208, 188, 255, 0.25);
+}
+
+/* Mars Theme (Martian Rust & Crimson Flare) */
+html.theme-mars {
+  --planet-primary: #ff5555;
+  --planet-primary-dim: #fb7185;
+  --planet-glow: rgba(255, 85, 85, 0.45);
+  --planet-border: rgba(255, 85, 85, 0.25);
+}
+
+/* FIX SCROLL: Ensure HTML and BODY have natural vertical scrolling without viewport locks */
+html {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #050816;
+  color: #dfe1f6;
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #050816;
+  color: #dfe1f6;
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden !important;
+  overflow-y: visible !important;
+  position: relative;
+  transition: background-color 0.5s ease;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 24px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 16px);
+}
+
+/* Custom Visible Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(5, 8, 22, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--planet-primary);
+  box-shadow: 0 0 8px var(--planet-primary);
+}
+
+/* Dynamic Planet Glow Utility */
+.planet-glow-text {
+  color: var(--planet-primary);
+  filter: drop-shadow(0 0 8px var(--planet-glow));
+}
+
+.planet-border {
+  border-color: var(--planet-border);
+}
+
+.planet-btn-primary {
+  background-color: var(--planet-primary);
+  color: #050816;
+  box-shadow: 0 0 16px var(--planet-glow);
+  transition: all 0.2s ease;
+}
+.planet-btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+.planet-btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Starfield Grid Pattern */
+.starfield-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Animations */
+@keyframes flame-pulse {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.85;
+    box-shadow: 0 0 12px var(--planet-primary);
+  }
+  50% {
+    transform: scaleX(1.4);
+    opacity: 1;
+    box-shadow: 0 0 20px var(--planet-primary), 0 0 30px #f59e0b;
+  }
+}
+
+.animate-flame {
+  animation: flame-pulse 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes rocket-launch-shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  20% { transform: translate(-3px, 2px) rotate(-1.5deg); }
+  40% { transform: translate(3px, -2px) rotate(1.5deg); }
+  60% { transform: translate(-2px, -1px) rotate(-0.5deg); }
+  80% { transform: translate(2px, 2px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.launching-shake {
+  animation: rocket-launch-shake 0.1s infinite;
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+.animate-radar {
+  animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Confetti Particle Burst Keyframes */
+@keyframes particle-pop {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx, 0), var(--ty, -60px)) scale(0.2);
+  }
+}
+
+.particle-star {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  animation: particle-pop 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* Tab panes */
+.tab-content {
+  display: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tab-content.active {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Active Nav Button */
+.nav-btn.active {
+  color: var(--planet-primary);
+  filter: drop-shadow(0 0 8px var(--planet-glow));
+}
+
+/* Hotspot pulse for interactive rocket */
+@keyframes hotspot-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.hotspot-ring {
+  animation: hotspot-pulse 1.5s infinite ease-in-out;
+}
