@@ -469,7 +469,7 @@ function renderHUD() {
 
     const earthImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBJQf15NHYnje8s0G3NFJLwjNI9WfSKi01b_1HEi6NRir4SHeqlPvsYfHAOXxQkmvn7yInzxpBto8FPrQhNlibjCjfZk4l39_WGFB_7kzOH3T5X9BYPS9pLq38CYUhxhkFecOFc9VqiImyYs7HCqF7zYaDROp5zCQcejWTk-9V44wHsEe0gXzyTzT5hGUSWUmK-CG-QfTC3NceyL0Nei0DW5FFbDpU8x39vXw6CM6A2NHABVLGgHNUI";
     const moonImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuA9UHUGAupHEu2eooZ-e1qJ4BYrdXqWNXdlC7UXnKmKBfxwZ21wJzpj-q0vtsOzzdWY27EuNJ2sWg3i1Lmj-5tKdTvt3RJcOnfakA2uyaHp7Q8MRJeCYnxkI-Jv-UcKNBLAxQHFxZO-ZMF_gLvbW-bTDUq3FQDZNr0QpfbFhad2FShdIiN59fWOYEBTmggAo5UmBcwlZb5F6pZJU8IoFquF7r9X88i17ikgVbZj7vAcxV3Q0OJt8wpr";
-    const marsImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5";
+    const marsImgUrl = "assests/mars.jpg";
 
     const originImg = document.getElementById("launch-origin-img");
     const originName = document.getElementById("launch-origin-name");
@@ -481,7 +481,7 @@ function renderHUD() {
         if (originName) originName.textContent = "Moon";
         if (targetImg) {
             targetImg.src = marsImgUrl;
-            targetImg.style.filter = "hue-rotate(330deg) saturate(2)";
+            targetImg.style.filter = "";
         }
         if (targetName) {
             targetName.textContent = "Mars";
