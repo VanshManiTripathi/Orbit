@@ -5,7 +5,7 @@ const DEFAULT_PLAYER = {
         total: 0,
         history: []
     },
-    credits: 100, // Starting reserve so players can try an upgrade right away
+    credits: 0, // Starting credits start from 0
     fuelReady: 20, // Starting fuel (>= 10) so players can try their first launch right away!
     rocket: {
         engine: 1,
@@ -14,6 +14,7 @@ const DEFAULT_PLAYER = {
         scanner: 1
     },
     journey: {
+        chapter: 1, // 1: Earth -> Moon, 2: Moon -> Mars
         currentPlanet: "Earth",
         targetPlanet: "Moon",
         progress: 0, // 0 to 100%
@@ -35,7 +36,7 @@ const DEFAULT_PLAYER = {
     },
     dailyLimits: {
         date: new Date().toISOString().split("T")[0],
-        savedToday: 0, // Max ₹250 a day
+        savedToday: 0, // Max ₹400 a day
         depositsCountToday: 0 // Max 10 times a day
     },
     currentTheme: "earth",
@@ -76,7 +77,7 @@ function loadPlayer() {
                 unlockedPlanets: parsed.unlockedPlanets && parsed.unlockedPlanets.length ? parsed.unlockedPlanets : DEFAULT_PLAYER.unlockedPlanets,
                 discoveries: parsed.discoveries || [],
                 fuelReady: typeof parsed.fuelReady === "number" ? parsed.fuelReady : DEFAULT_PLAYER.fuelReady,
-                currentTheme: parsed.currentTheme || (parsed.journey && parsed.journey.currentPlanet === "Moon" ? "moon" : "earth")
+                currentTheme: parsed.currentTheme || (parsed.journey && parsed.journey.currentPlanet === "Mars" ? "mars" : (parsed.journey && parsed.journey.currentPlanet === "Moon" ? "moon" : "earth"))
             };
             checkDailyReset(p);
             return p;

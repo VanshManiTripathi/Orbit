@@ -1,11 +1,18 @@
-// ORBIT // Space Journey & Manual Rocket Launch
+// ORBIT // Space Journey & Multi-Planet Manual Rocket Launch
 
 function launchRocket() {
     if (!player) return;
 
-    if (player.journey.progress >= 100 && player.journey.currentPlanet === "Moon") {
+    // Check if Moon reached in Chapter 1 - prompt or transition to Chapter 2
+    if (player.journey.chapter !== 2 && player.journey.progress >= 100 && player.unlockedPlanets.includes("Moon")) {
+        startMarsExpedition();
+        return;
+    }
+
+    // Check if Mars reached in Chapter 2
+    if (player.journey.chapter === 2 && player.journey.progress >= 100 && player.journey.currentPlanet === "Mars") {
         if (typeof showToast === "function") {
-            showToast("Moon reached! Prepare for Chapter 2: Mars Expedition.", "info");
+            showToast("Mars Base established! Chapter 3: Jupiter Deep Space incoming soon.", "info");
         }
         return;
     }
@@ -27,13 +34,17 @@ function launchRocket() {
 
     // Engine multiplier increases distance traveled
     const engineMultiplier = player.rocket.engine || 1;
-    const progressGain = Math.max(2, Math.round((burnAmount / 8) * engineMultiplier));
+    // Chapter 2 (Mars) requires slightly more power for deep space transit
+    const divisor = player.journey.chapter === 2 ? 10 : 8;
+    const minGain = player.journey.chapter === 2 ? 1 : 2;
+    const progressGain = Math.max(minGain, Math.round((burnAmount / divisor) * engineMultiplier));
 
     player.journey.progress = Math.min(100, (player.journey.progress || 0) + progressGain);
 
     savePlayer(player);
 
-    console.log(`🚀 Rocket Launched! Burned ${burnAmount} fuel. Progress is now ${player.journey.progress}%`);
+    const targetName = player.journey.targetPlanet || "Moon";
+    console.log(`🚀 Rocket Launched! Burned ${burnAmount} fuel towards ${targetName}. Progress is now ${player.journey.progress}%`);
 
     // Trigger Launch Animation & Sound
     if (typeof playSound === "function") {
@@ -44,20 +55,33 @@ function launchRocket() {
         animateRocketLaunchSequence(burnAmount, progressGain);
     }
 
-    // Scanner Array increases chance of finding space relics
+    // Tuned Discovery Rarity: Base 8% chance, +2.5% per Scanner level (up to 30.5% at level 10)
     const scannerLevel = player.rocket.scanner || 1;
-    const discoveryChance = 0.25 + (scannerLevel - 1) * 0.08;
+    const discoveryChance = 0.08 + (scannerLevel - 1) * 0.025;
 
+    let triggeredDiscovery = false;
     if (Math.random() < discoveryChance) {
+        triggeredDiscovery = true;
         setTimeout(() => {
             generateDiscovery();
         }, 800);
     }
 
-    // Check if Moon reached!
+    // Procedural Space Encounter Trigger (~35% chance on launch)
+    if (!triggeredDiscovery && Math.random() < 0.35 && typeof triggerRandomEncounter === "function") {
+        setTimeout(() => {
+            triggerRandomEncounter();
+        }, 950);
+    }
+
+    // Check Milestone Arrival!
     if (player.journey.progress >= 100) {
         setTimeout(() => {
-            reachMoon();
+            if (player.journey.chapter === 2 || player.journey.targetPlanet === "Mars") {
+                reachMars();
+            } else {
+                reachMoon();
+            }
         }, 1200);
     }
 
@@ -91,6 +115,65 @@ function reachMoon() {
         showArrivalModal("Moon", "Luna Gate Base");
     } else if (typeof showToast === "function") {
         showToast("🌕 Landing Successful! Moon Unlocked (+150 Credits)", "success");
+    }
+
+    if (typeof renderHUD === "function") {
+        renderHUD();
+    }
+}
+
+function startMarsExpedition() {
+    if (!player) return;
+
+    player.journey.chapter = 2;
+    player.journey.currentPlanet = "Moon";
+    player.journey.targetPlanet = "Mars";
+    player.journey.progress = 0;
+    player.journey.totalDistanceKm = 54600000;
+
+    savePlayer(player);
+
+    if (typeof playSound === "function") {
+        playSound("thruster");
+    }
+
+    if (typeof triggerParticleBurst === "function") {
+        triggerParticleBurst();
+    }
+
+    if (typeof showToast === "function") {
+        showToast("🚀 Chapter 2 Initiated: Moon to Mars Expedition (54.6M KM)!", "success");
+    }
+
+    if (typeof renderHUD === "function") {
+        renderHUD();
+    }
+}
+
+function reachMars() {
+    player.journey.currentPlanet = "Mars";
+    player.journey.targetPlanet = "Jupiter";
+
+    if (!player.unlockedPlanets.includes("Mars")) {
+        player.unlockedPlanets.push("Mars");
+        player.credits += 300; // Epic Chapter 2 bonus
+    }
+
+    player.currentTheme = "mars";
+    savePlayer(player);
+
+    if (typeof applyPlanetTheme === "function") {
+        applyPlanetTheme("mars");
+    }
+
+    if (typeof playSound === "function") {
+        playSound("arrival");
+    }
+
+    if (typeof showArrivalModal === "function") {
+        showArrivalModal("Mars", "Olympus Mons Outpost");
+    } else if (typeof showToast === "function") {
+        showToast("🔴 Mars Landing Successful! Olympus Mons Outpost Unlocked (+300 Credits)", "success");
     }
 
     if (typeof renderHUD === "function") {

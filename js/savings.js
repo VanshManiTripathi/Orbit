@@ -26,23 +26,23 @@ function recordSaving(amount, sourceLabel = "Quick Save") {
         checkDailyReset(player);
     }
 
-    // Rule 3: Max 6 savings deposits per day
+    // Rule 3: Max 10 savings deposits per day
     const depositsToday = player.dailyLimits.depositsCountToday || 0;
-    if (depositsToday >= 6) {
+    if (depositsToday >= 10) {
         if (typeof showToast === "function") {
-            showToast("Daily limit reached! Max 6 saves per day (6/6 used). Come back tomorrow!", "error");
+            showToast("Daily limit reached! Max 10 saves per day (10/10 used). Come back tomorrow!", "error");
         }
         if (typeof playSound === "function") playSound("error");
         return false;
     }
 
-    // Rule 4: Max ₹250 total saved per day
+    // Rule 4: Max ₹400 total saved per day
     const savedToday = player.dailyLimits.savedToday || 0;
-    const remainingDaily = 250 - savedToday;
+    const remainingDaily = 400 - savedToday;
 
     if (remainingDaily <= 0) {
         if (typeof showToast === "function") {
-            showToast("Daily goal reached! You've already saved ₹250 today (maximum daily limit).", "info");
+            showToast("Daily goal reached! You've already saved ₹400 today (maximum daily limit).", "info");
         }
         if (typeof playSound === "function") playSound("error");
         return false;
@@ -50,7 +50,7 @@ function recordSaving(amount, sourceLabel = "Quick Save") {
 
     if (amount > remainingDaily) {
         if (typeof showToast === "function") {
-            showToast(`Daily limit is ₹250. You can only save up to ₹${remainingDaily} more today.`, "error");
+            showToast(`Daily limit is ₹400. You can only save up to ₹${remainingDaily} more today.`, "error");
         }
         if (typeof playSound === "function") playSound("error");
         return false;
@@ -118,7 +118,7 @@ function recordSaving(amount, sourceLabel = "Quick Save") {
     // 8. Save state
     savePlayer(player);
 
-    console.log(`Saved ₹${amount}. Saved Today: ₹${player.dailyLimits.savedToday}/250 (${player.dailyLimits.depositsCountToday}/6 deposits)`);
+    console.log(`Saved ₹${amount}. Saved Today: ₹${player.dailyLimits.savedToday}/400 (${player.dailyLimits.depositsCountToday}/10 deposits)`);
 
     // 9. Interactive Celebratory Feedback
     if (typeof playSound === "function") {
@@ -129,12 +129,12 @@ function recordSaving(amount, sourceLabel = "Quick Save") {
         triggerParticleBurst();
     }
 
-    const remainingNow = 250 - player.dailyLimits.savedToday;
-    const savesLeft = 6 - player.dailyLimits.depositsCountToday;
+    const remainingNow = 400 - player.dailyLimits.savedToday;
+    const savesLeft = 10 - player.dailyLimits.depositsCountToday;
 
     if (typeof showToast === "function") {
         if (remainingNow === 0 || savesLeft === 0) {
-            showToast(`Saved ₹${amount}! Daily saving goal complete! 🏆 (₹250 / 6 saves)`, "success");
+            showToast(`Saved ₹${amount}! Daily saving goal complete! 🏆 (₹400 / 10 saves)`, "success");
         } else {
             showToast(`Saved ₹${amount}! (+${amount} Credits, +${amount} Fuel) • ₹${remainingNow} left today`, "success");
         }

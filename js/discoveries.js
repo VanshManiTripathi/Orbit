@@ -44,8 +44,33 @@ const DISCOVERY_TYPES = [
 ];
 
 function generateDiscovery() {
-    const randomIndex = Math.floor(Math.random() * DISCOVERY_TYPES.length);
-    const template = DISCOVERY_TYPES[randomIndex];
+    if (!player) return null;
+
+    const collectedIds = new Set((player.discoveries || []).map(d => d.id));
+    const uncollected = DISCOVERY_TYPES.filter(d => !collectedIds.has(d.id));
+
+    // Weighted Rarity: Common (55%), Rare (25%), Epic (14%), Legendary (6%)
+    const roll = Math.random();
+    let targetRarity;
+    if (roll < 0.55) targetRarity = "COMMON";
+    else if (roll < 0.80) targetRarity = "RARE";
+    else if (roll < 0.94) targetRarity = "EPIC";
+    else targetRarity = "LEGENDARY";
+
+    let template;
+    const uncollectedMatching = uncollected.filter(d => d.rarity === targetRarity);
+    if (uncollectedMatching.length > 0) {
+        template = uncollectedMatching[Math.floor(Math.random() * uncollectedMatching.length)];
+    } else if (uncollected.length > 0 && Math.random() < 0.65) {
+        template = uncollected[Math.floor(Math.random() * uncollected.length)];
+    } else {
+        const matchingPool = DISCOVERY_TYPES.filter(d => d.rarity === targetRarity);
+        template = matchingPool.length > 0
+            ? matchingPool[Math.floor(Math.random() * matchingPool.length)]
+            : DISCOVERY_TYPES[Math.floor(Math.random() * DISCOVERY_TYPES.length)];
+    }
+
+    const isFirstTime = !collectedIds.has(template.id);
 
     const item = {
         id: template.id,
@@ -59,17 +84,23 @@ function generateDiscovery() {
         date: new Date().toISOString()
     };
 
-    player.discoveries.push(item);
+    if (isFirstTime) {
+        player.discoveries.push(item);
+    }
     player.credits += item.reward;
     savePlayer(player);
 
-    console.log(`Discovered: ${item.name} (+${item.reward} Credits)`);
+    const toastMsg = isFirstTime 
+        ? `🌟 NEW DISCOVERY! ${item.name} (+${item.reward} Credits)`
+        : `Salvaged ${item.name} duplicate (+${item.reward} Credits)`;
+
+    console.log(`Discovered: ${item.name} (${item.rarity}) (+${item.reward} Credits) - First time: ${isFirstTime}`);
 
     if (typeof playSound === "function") playSound("discovery");
     if (typeof showDiscoveryModal === "function") {
-        showDiscoveryModal(item);
+        showDiscoveryModal(item, isFirstTime);
     } else if (typeof showToast === "function") {
-        showToast(`Found: ${item.name}! (+${item.reward} Credits)`, "discovery");
+        showToast(toastMsg, "discovery");
     }
 
     if (typeof renderHUD === "function") renderHUD();

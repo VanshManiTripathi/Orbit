@@ -268,11 +268,20 @@ function updateSpaceshipPosition(progressPercent) {
     // Update current visual stage badge on the Launch tab
     const stageBadge = document.getElementById("launch-stage-badge");
     if (stageBadge) {
-        if (progressPercent >= 100) stageBadge.textContent = "Stage 5: Lunar Landing!";
-        else if (progressPercent >= 75) stageBadge.textContent = "Stage 4: Approaching Moon";
-        else if (progressPercent >= 50) stageBadge.textContent = "Stage 3: Deep Space Transit";
-        else if (progressPercent >= 25) stageBadge.textContent = "Stage 2: Earth Orbit Exit";
-        else stageBadge.textContent = "Stage 1: Launchpad Ready";
+        const isCh2 = window.player && (window.player.journey.chapter === 2 || window.player.journey.targetPlanet === "Mars");
+        if (isCh2) {
+            if (progressPercent >= 100) stageBadge.textContent = "Stage 5: Touchdown at Olympus Mons!";
+            else if (progressPercent >= 75) stageBadge.textContent = "Stage 4: Martian Atmospheric Entry";
+            else if (progressPercent >= 50) stageBadge.textContent = "Stage 3: Asteroid Belt Crossing";
+            else if (progressPercent >= 25) stageBadge.textContent = "Stage 2: Deep Solar Transit";
+            else stageBadge.textContent = "Stage 1: Lunar Orbit Departure";
+        } else {
+            if (progressPercent >= 100) stageBadge.textContent = "Stage 5: Lunar Landing!";
+            else if (progressPercent >= 75) stageBadge.textContent = "Stage 4: Approaching Moon";
+            else if (progressPercent >= 50) stageBadge.textContent = "Stage 3: Deep Space Transit";
+            else if (progressPercent >= 25) stageBadge.textContent = "Stage 2: Earth Orbit Exit";
+            else stageBadge.textContent = "Stage 1: Launchpad Ready";
+        }
     }
 }
 
@@ -386,32 +395,32 @@ function renderHUD() {
     const saveStreakCount = document.getElementById("save-streak-count");
     if (saveStreakCount) saveStreakCount.textContent = `${p.streak.current || 1} Days`;
 
-    // Daily Limit Tracker UI
+    // Daily Limit Tracker UI (Max 10 saves per day, ₹400 cap)
     const savedToday = p.dailyLimits ? p.dailyLimits.savedToday || 0 : 0;
     const depositsCount = p.dailyLimits ? p.dailyLimits.depositsCountToday || 0 : 0;
-    const remainingDailyAmount = Math.max(0, 250 - savedToday);
-    const savesRemaining = Math.max(0, 6 - depositsCount);
+    const remainingDailyAmount = Math.max(0, 400 - savedToday);
+    const savesRemaining = Math.max(0, 10 - depositsCount);
 
     const trackerSavedToday = document.getElementById("tracker-saved-today");
-    if (trackerSavedToday) trackerSavedToday.textContent = `₹${savedToday} / ₹250`;
+    if (trackerSavedToday) trackerSavedToday.textContent = `₹${savedToday} / ₹400`;
 
     const trackerAmountRemaining = document.getElementById("tracker-amount-remaining");
     if (trackerAmountRemaining) trackerAmountRemaining.textContent = `₹${remainingDailyAmount} left`;
 
     const trackerAmountBar = document.getElementById("tracker-amount-bar");
     if (trackerAmountBar) {
-        const pct = Math.min(100, Math.round((savedToday / 250) * 100));
+        const pct = Math.min(100, Math.round((savedToday / 400) * 100));
         trackerAmountBar.style.width = `${pct}%`;
     }
 
     const trackerDepositsCount = document.getElementById("tracker-deposits-count");
-    if (trackerDepositsCount) trackerDepositsCount.textContent = `${depositsCount} / 6 used (${savesRemaining} left)`;
+    if (trackerDepositsCount) trackerDepositsCount.textContent = `${depositsCount} / 10 used (${savesRemaining} left)`;
 
-    // Render 6 deposit slot pills
+    // Render 10 deposit slot pills
     const slotsContainer = document.getElementById("tracker-deposit-slots");
     if (slotsContainer) {
         let slotsHtml = "";
-        for (let i = 1; i <= 6; i++) {
+        for (let i = 1; i <= 10; i++) {
             const isUsed = i <= depositsCount;
             slotsHtml += `
                 <div class="h-2 flex-1 rounded-full ${isUsed ? 'bg-primary-container shadow-[0_0_8px_var(--planet-glow)]' : 'bg-surface-container-highest'} transition-colors"></div>
@@ -423,7 +432,7 @@ function renderHUD() {
     // Daily Cap Banner if achieved
     const capBanner = document.getElementById("tracker-cap-banner");
     if (capBanner) {
-        if (savedToday >= 250 || depositsCount >= 6) {
+        if (savedToday >= 400 || depositsCount >= 10) {
             capBanner.classList.remove("hidden");
         } else {
             capBanner.classList.add("hidden");
@@ -445,8 +454,52 @@ function renderHUD() {
     }
 
     // ------------------------------------
-    // TAB 2: LAUNCH ROCKET
+    // TAB 2: LAUNCH ROCKET (CHAPTER 1: MOON / CHAPTER 2: MARS)
     // ------------------------------------
+    const isChapter2 = p.journey && (p.journey.chapter === 2 || (p.journey.currentPlanet === "Moon" && p.journey.targetPlanet === "Mars" && p.journey.progress < 100));
+
+    const flightTitle = document.getElementById("launch-flight-title");
+    if (flightTitle) {
+        flightTitle.textContent = isChapter2 ? "Moon to Mars Expedition (Chapter 2)" : "Earth to Moon Flight";
+    }
+    const flightIcon = document.getElementById("launch-flight-icon");
+    if (flightIcon) {
+        flightIcon.textContent = isChapter2 ? "rocket_launch" : "explore";
+    }
+
+    const earthImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBJQf15NHYnje8s0G3NFJLwjNI9WfSKi01b_1HEi6NRir4SHeqlPvsYfHAOXxQkmvn7yInzxpBto8FPrQhNlibjCjfZk4l39_WGFB_7kzOH3T5X9BYPS9pLq38CYUhxhkFecOFc9VqiImyYs7HCqF7zYaDROp5zCQcejWTk-9V44wHsEe0gXzyTzT5hGUSWUmK-CG-QfTC3NceyL0Nei0DW5FFbDpU8x39vXw6CM6A2NHABVLGgHNUI";
+    const moonImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuA9UHUGAupHEu2eooZ-e1qJ4BYrdXqWNXdlC7UXnKmKBfxwZ21wJzpj-q0vtsOzzdWY27EuNJ2sWg3i1Lmj-5tKdTvt3RJcOnfakA2uyaHp7Q8MRJeCYnxkI-Jv-UcKNBLAxQHFxZO-ZMF_gLvbW-bTDUq3FQDZNr0QpfbFhad2FShdIiN59fWOYEBTmggAo5UmBcwlZb5F6pZJU8IoFquF7r9X88i17ikgVbZj7vAcxV3Q0OJt8wpr";
+    const marsImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5";
+
+    const originImg = document.getElementById("launch-origin-img");
+    const originName = document.getElementById("launch-origin-name");
+    const targetImg = document.getElementById("launch-target-img");
+    const targetName = document.getElementById("launch-target-name");
+
+    if (isChapter2) {
+        if (originImg) originImg.src = moonImgUrl;
+        if (originName) originName.textContent = "Moon";
+        if (targetImg) {
+            targetImg.src = marsImgUrl;
+            targetImg.style.filter = "hue-rotate(330deg) saturate(2)";
+        }
+        if (targetName) {
+            targetName.textContent = "Mars";
+            targetName.className = "font-hud-label-sm text-[10px] text-[#ff5555] uppercase tracking-wider mt-1.5 font-bold";
+        }
+    } else {
+        if (originImg) originImg.src = earthImgUrl;
+        if (originName) originName.textContent = "Earth";
+        if (targetImg) {
+            targetImg.src = moonImgUrl;
+            targetImg.style.filter = "";
+        }
+        if (targetName) {
+            targetName.textContent = "Moon";
+            targetName.className = "font-hud-label-sm text-[10px] text-secondary uppercase tracking-wider mt-1.5 font-bold";
+        }
+    }
+
     const launchFuelBadge = document.getElementById("launch-fuel-badge");
     if (launchFuelBadge) launchFuelBadge.textContent = `${p.fuelReady || 0} Fuel Ready`;
 
@@ -455,8 +508,14 @@ function renderHUD() {
 
     const launchDistanceKm = document.getElementById("launch-distance-km");
     if (launchDistanceKm) {
-        const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 384400));
-        launchDistanceKm.textContent = `${kmLeft.toLocaleString()} KM to Moon`;
+        if (isChapter2) {
+            const totalKm = 54600000;
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * totalKm));
+            launchDistanceKm.textContent = `${(kmLeft / 1000000).toFixed(1)}M KM to Mars`;
+        } else {
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 384400));
+            launchDistanceKm.textContent = `${kmLeft.toLocaleString()} KM to Moon`;
+        }
     }
 
     const launchBtn = document.getElementById("launch-action-btn");
@@ -470,10 +529,49 @@ function renderHUD() {
         } else {
             launchBtn.classList.remove("opacity-50");
             const maxBurn = Math.min(p.fuelReady, (p.rocket.fuel || 1) * 25);
+            const targetDest = isChapter2 ? "Mars" : "Moon";
             launchBtn.innerHTML = `
                 <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
-                <span>LAUNCH ROCKET NOW (Burns ${maxBurn} Fuel)</span>
+                <span>LAUNCH ROCKET NOW (Burns ${maxBurn} Fuel to ${targetDest})</span>
             `;
+        }
+    }
+
+    const launchInfoText = document.getElementById("launch-info-text");
+    if (launchInfoText) {
+        launchInfoText.textContent = isChapter2
+            ? "Pressing launch burns ready fuel, propels through deep space towards Mars, and scans for space relics!"
+            : "Pressing launch burns ready fuel, moves the rocket closer to the Moon, and scans for space discoveries!";
+    }
+
+    const stageGuide = document.getElementById("launch-stage-guide");
+    if (stageGuide) {
+        if (isChapter2) {
+            stageGuide.innerHTML = `
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-secondary font-bold">Moon</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">Transit</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">Asteroids</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">75%<br/><span class="text-[9px]">Entry</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">100%<br/><span class="text-[9px] text-[#ff5555] font-bold">Mars</span></div>
+            `;
+        } else {
+            stageGuide.innerHTML = `
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-primary-container font-bold">Earth</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">Orbit</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">Space</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">75%<br/><span class="text-[9px]">Approach</span></div>
+                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">100%<br/><span class="text-[9px] text-secondary font-bold">Moon</span></div>
+            `;
+        }
+    }
+
+    const ch2Banner = document.getElementById("chapter-2-banner");
+    if (ch2Banner) {
+        const moonUnlocked = (p.unlockedPlanets || []).includes("Moon");
+        if (moonUnlocked && !isChapter2) {
+            ch2Banner.classList.remove("hidden");
+        } else {
+            ch2Banner.classList.add("hidden");
         }
     }
 
@@ -500,7 +598,59 @@ function renderHUD() {
     const atlasProgressBar = document.getElementById("atlas-progress-bar");
     if (atlasProgressBar) atlasProgressBar.style.width = `${Math.round((atlasUnlockedCount / 6) * 100)}%`;
 
-    // Discoveries grid in Atlas tab
+    // Update Atlas Planet Cards (Moon & Mars status)
+    const moonUnlocked = (p.unlockedPlanets || []).includes("Moon");
+    const marsUnlocked = (p.unlockedPlanets || []).includes("Mars");
+
+    const moonBadge = document.getElementById("atlas-moon-badge");
+    const moonDesc = document.getElementById("atlas-moon-desc");
+    const moonIcon = document.getElementById("atlas-moon-icon");
+    if (moonBadge && moonDesc && moonIcon) {
+        if (moonUnlocked) {
+            moonBadge.textContent = "Base Active";
+            moonBadge.className = "px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold";
+            moonDesc.textContent = "Luna Gate Base unlocked • Tap to switch theme";
+            moonIcon.textContent = "check_circle";
+            moonIcon.className = "material-symbols-outlined text-secondary";
+        } else {
+            moonBadge.textContent = "Target";
+            moonBadge.className = "px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold";
+            moonDesc.textContent = "Reach 100% on Launch tab to unlock!";
+            moonIcon.textContent = "explore";
+        }
+    }
+
+    const marsCard = document.getElementById("atlas-mars-card");
+    const marsBadge = document.getElementById("atlas-mars-badge");
+    const marsDesc = document.getElementById("atlas-mars-desc");
+    const marsIcon = document.getElementById("atlas-mars-icon");
+    if (marsBadge && marsDesc && marsIcon) {
+        if (marsUnlocked) {
+            marsBadge.textContent = "Colonized";
+            marsBadge.className = "px-2 py-0.2 rounded-full bg-red-500/20 text-[#ff5555] text-[10px] font-bold";
+            marsDesc.textContent = "Olympus Mons Outpost active • Tap to switch theme";
+            marsIcon.textContent = "check_circle";
+            marsIcon.className = "material-symbols-outlined text-[#ff5555]";
+            if (marsCard) marsCard.classList.remove("opacity-75");
+        } else if (isChapter2) {
+            marsBadge.textContent = `Expedition (${p.journey.progress || 0}%)`;
+            marsBadge.className = "px-2 py-0.2 rounded-full bg-primary-container/20 text-primary-container text-[10px] font-bold";
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 54.6));
+            marsDesc.textContent = `In transit to Mars • ~${kmLeft}M KM left • Tap to launch`;
+            marsIcon.textContent = "rocket_launch";
+            marsIcon.className = "material-symbols-outlined text-primary-container";
+            if (marsCard) marsCard.classList.remove("opacity-75");
+        } else {
+            marsBadge.textContent = "Locked";
+            marsBadge.className = "px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold";
+            marsDesc.textContent = "Chapter II Expedition • Reach Moon first";
+            marsIcon.textContent = "lock";
+            marsIcon.className = "material-symbols-outlined text-on-surface-variant";
+            if (marsCard) marsCard.classList.add("opacity-75");
+        }
+    }
+
+    // Discoveries grid in Atlas tab - Enshroud uncollected relics!
     const discoveriesGrid = document.getElementById("discoveries-grid");
     if (discoveriesGrid && typeof DISCOVERY_TYPES !== "undefined") {
         const foundMap = new Map();
@@ -509,24 +659,49 @@ function renderHUD() {
         const countText = document.getElementById("discoveries-count-text");
         if (countText) countText.textContent = `${foundMap.size} of ${DISCOVERY_TYPES.length} Collected`;
 
-        discoveriesGrid.innerHTML = DISCOVERY_TYPES.map(item => {
+        discoveriesGrid.innerHTML = DISCOVERY_TYPES.map((item, idx) => {
             const isFound = foundMap.has(item.id);
+            if (!isFound) {
+                // Enshrouded mystery card - DO NOT leak image, name, or rewards!
+                return `
+                    <div onclick="showToast('Classified Space Anomaly! Upgrade Scanner and launch missions to locate.', 'info')" class="group relative rounded-xl bg-surface-container/60 p-3 flex flex-col justify-between border border-dashed border-white/10 cursor-pointer hover:border-primary-container/30 transition-all">
+                        <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-lowest mb-2 flex items-center justify-center border border-white/5">
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,240,255,0.04),transparent_70%)] pointer-events-none"></div>
+                            <div class="flex flex-col items-center gap-1 text-on-surface-variant/40">
+                                <span class="material-symbols-outlined text-[28px] animate-pulse">radar</span>
+                                <span class="font-hud-label-sm text-[9px] tracking-wider font-semibold">SIGNAL ENCRYPTED</span>
+                            </div>
+                            <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-hud-label-sm text-[8px] uppercase font-bold tracking-wider">
+                                UNDISCOVERED
+                            </span>
+                            <div class="absolute top-1.5 right-1.5">
+                                <span class="material-symbols-outlined text-[14px] text-on-surface-variant/50">lock</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-[13px] font-bold text-on-surface-variant truncate">Classified Relic #${idx + 1}</h4>
+                            <p class="font-body-sm text-[11px] text-on-surface-variant/70 line-clamp-1">Deep space frequency detected. Launch missions to identify.</p>
+                            <div class="flex items-center justify-between pt-1">
+                                <span class="font-hud-label-sm text-[10px] text-on-surface-variant/60 font-semibold">??? Credits</span>
+                                <span class="font-hud-label-sm text-[10px] text-primary-container font-semibold">Scan</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Discovered item
             return `
-                <div onclick="inspectArtifact('${item.id}')" class="group relative rounded-xl bg-surface-container p-3 flex flex-col justify-between border border-white/5 cursor-pointer hover:border-primary-container/40 transition-all ${!isFound ? 'opacity-55' : ''}">
+                <div onclick="inspectArtifact('${item.id}')" class="group relative rounded-xl bg-surface-container p-3 flex flex-col justify-between border border-white/10 cursor-pointer hover:border-primary-container/40 transition-all shadow-md">
                     <div class="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-surface-container-lowest mb-2">
-                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform ${!isFound ? 'grayscale' : ''}" src="${item.image}" alt="${item.name}">
+                        <img class="w-full h-full object-cover group-hover:scale-105 transition-transform" src="${item.image}" alt="${item.name}">
                         <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full ${item.badgeClass} font-hud-label-sm text-[9px] uppercase font-bold">
                             ${item.rarity}
                         </span>
-                        ${!isFound ? `
-                            <div class="absolute inset-0 flex items-center justify-center bg-black/40">
-                                <span class="material-symbols-outlined text-[20px] text-on-surface-variant">lock</span>
-                            </div>
-                        ` : ''}
                     </div>
                     <div>
                         <h4 class="font-headline-sm text-[13px] font-bold text-on-surface truncate">${item.name}</h4>
-                        <p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-1">${isFound ? item.lore : 'Launch missions to discover this!'}</p>
+                        <p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-1">${item.lore}</p>
                         <div class="flex items-center justify-between pt-1">
                             <span class="font-hud-label-sm text-[10px] text-tertiary-fixed font-bold">+${item.reward} Credits</span>
                             <span class="font-hud-label-sm text-[10px] text-primary-container font-semibold">Inspect</span>
@@ -661,12 +836,38 @@ function showArrivalModal(planetName, stationName) {
     const modal = document.getElementById("arrivalCelebrationModal");
     if (!modal) return;
 
-    document.getElementById("arrivalModalTitle").textContent = `${planetName.toUpperCase()} REACHED!`;
-    document.getElementById("arrivalModalMsg").textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! Luna Gate Base is unlocked, and +150 bonus credits are added to your wallet.`;
+    const title = document.getElementById("arrivalModalTitle");
+    const msg = document.getElementById("arrivalModalMsg");
+
+    if (planetName === "Mars") {
+        if (title) title.textContent = "MARS COLONY REACHED!";
+        if (msg) msg.textContent = "Incredible milestone, Commander! You completed Chapter 2 and safely touched down at Olympus Mons Outpost! Mars is unlocked in your Space Atlas, crimson theme is active, and +300 bonus credits are awarded!";
+    } else {
+        if (title) title.textContent = `${planetName.toUpperCase()} REACHED!`;
+        if (msg) msg.textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! ${stationName || 'Luna Gate Base'} is unlocked, Moon theme active, and +150 bonus credits are added to your wallet. You are now ready for Chapter 2: Mars Expedition!`;
+    }
 
     triggerParticleBurst(window.innerWidth / 2, window.innerHeight / 2);
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+}
+
+function handleAtlasMarsClick() {
+    playSound("click");
+    if (!window.player) return;
+    const p = window.player;
+    if (p.unlockedPlanets && p.unlockedPlanets.includes("Mars")) {
+        applyPlanetTheme("mars");
+        showToast("View set to Mars (Crimson Theme)", "info");
+    } else if (p.journey && p.journey.chapter === 2) {
+        showToast("Chapter 2 Expedition currently in progress to Mars!", "info");
+        switchTab("launch");
+    } else if (p.unlockedPlanets && p.unlockedPlanets.includes("Moon")) {
+        startMarsExpedition();
+        switchTab("launch");
+    } else {
+        showToast("Locked! Complete Chapter 1 (Earth to Moon) first to unlock Mars Expedition.", "error");
+    }
 }
 
 function closeArrivalModal() {
@@ -683,6 +884,28 @@ function toggleSound(checkbox) {
     player.soundEnabled = checkbox.checked;
     savePlayer(player);
     if (player.soundEnabled) playSound("click");
+}
+
+function devResetDailyLimits() {
+    if (!window.player) return;
+    const today = new Date().toISOString().split("T")[0];
+    window.player.dailyLimits = {
+        date: today,
+        savedToday: 0,
+        depositsCountToday: 0
+    };
+    if (window.player.missions) {
+        window.player.missions.dailySave = false;
+        window.player.missions.saveTwice = false;
+        window.player.missions.depositsToday = 0;
+    }
+    savePlayer(window.player);
+    if (typeof playSound === "function") playSound("upgrade");
+    if (typeof triggerParticleBurst === "function") triggerParticleBurst();
+    if (typeof renderHUD === "function") renderHUD();
+    if (typeof showToast === "function") {
+        showToast("⚡ Dev: Daily saving limits reset! (₹0 / ₹400, 0 / 10 saves used)", "success");
+    }
 }
 
 function confirmResetPlayer() {

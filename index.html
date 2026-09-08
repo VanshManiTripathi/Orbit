@@ -186,41 +186,41 @@
         </div>
       </div>
 
-      <!-- NEW: Interactive Daily Saving Tracker Card (Caps: ₹250/day, 6 saves/day, ₹50 max/save) -->
+      <!-- NEW: Interactive Daily Saving Tracker Card (Caps: ₹250/day, 10 saves/day, ₹50 max/save) -->
       <div class="p-space-md rounded-2xl bg-surface-container-low border border-primary-container/25 flex flex-col gap-2.5 shadow-md">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1.5">
             <span class="material-symbols-outlined text-primary-container text-[18px]">verified</span>
             <span class="font-headline-sm text-[14px] font-bold text-on-surface">Daily Saving Limit</span>
           </div>
-          <span id="tracker-amount-remaining" class="font-hud-label-sm text-[11px] font-bold text-primary-fixed">₹250 left</span>
+          <span id="tracker-amount-remaining" class="font-hud-label-sm text-[11px] font-bold text-primary-fixed">₹400 left</span>
         </div>
 
         <!-- Daily Amount Progress Bar -->
         <div class="flex flex-col gap-1">
           <div class="flex justify-between text-[12px]">
             <span class="text-on-surface-variant">Today's Savings:</span>
-            <span id="tracker-saved-today" class="font-hud-label-sm text-[12px] font-bold text-primary-container">₹0 / ₹250</span>
+            <span id="tracker-saved-today" class="font-hud-label-sm text-[12px] font-bold text-primary-container">₹0 / ₹400</span>
           </div>
           <div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
             <div id="tracker-amount-bar" class="h-full rounded-full bg-primary-container shadow-[0_0_8px_var(--planet-primary)] transition-all duration-500" style="width: 0%;"></div>
           </div>
         </div>
 
-        <!-- 6 Deposit Slots Interactive Visual Indicators -->
+        <!-- 10 Deposit Slots Interactive Visual Indicators -->
         <div class="flex flex-col gap-1 mt-1 pt-1 border-t border-white/5">
           <div class="flex justify-between text-[12px]">
-            <span class="text-on-surface-variant">Saves Today (Max 6):</span>
-            <span id="tracker-deposits-count" class="font-hud-label-sm text-[11px] font-bold text-tertiary-fixed">0 / 6 used</span>
+            <span class="text-on-surface-variant">Saves Today (Max 10):</span>
+            <span id="tracker-deposits-count" class="font-hud-label-sm text-[11px] font-bold text-tertiary-fixed">0 / 10 used</span>
           </div>
           <div id="tracker-deposit-slots" class="flex items-center gap-1.5 w-full mt-1">
-            <!-- 6 Slot pills populated dynamically -->
+            <!-- 10 Slot pills populated dynamically -->
           </div>
         </div>
 
         <!-- Cap Achieved Banner -->
         <div id="tracker-cap-banner" class="hidden p-2 rounded-xl bg-tertiary-container/20 border border-tertiary/40 text-tertiary text-center text-[12px] font-bold">
-          🏆 Daily saving goal complete! You've saved the max ₹250 or 6 saves today.
+          🏆 Daily saving goal complete! You've saved the max ₹400 or 10 saves today.
         </div>
 
         <div class="text-[11px] text-on-surface-variant flex items-center justify-between pt-0.5">
@@ -333,8 +333,8 @@
         <!-- Header -->
         <div class="relative z-10 flex items-center justify-between">
           <div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high/90 border border-white/10">
-            <span class="material-symbols-outlined text-primary-container text-[14px]">explore</span>
-            <span class="text-[11px] uppercase tracking-wider text-primary-fixed font-bold">Earth to Moon Flight</span>
+            <span id="launch-flight-icon" class="material-symbols-outlined text-primary-container text-[14px]">explore</span>
+            <span id="launch-flight-title" class="text-[11px] uppercase tracking-wider text-primary-fixed font-bold">Earth to Moon Flight</span>
           </div>
           <span id="launch-fuel-badge" class="font-hud-label-sm text-[11px] font-bold text-tertiary-fixed">
             0 Fuel Ready
@@ -343,12 +343,12 @@
 
         <!-- Interactive 2D Flight Trajectory Screen -->
         <div class="relative w-full h-48 my-1 flex items-center justify-between px-2 overflow-hidden select-none">
-          <!-- Earth Left -->
+          <!-- Origin Left -->
           <div class="relative z-10 flex flex-col items-center">
-            <div class="relative w-16 h-16 rounded-full bg-surface-container-high shadow-[0_0_24px_rgba(0,240,255,0.45)] flex items-center justify-center overflow-hidden border border-primary-container/40">
-              <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQf15NHYnje8s0G3NFJLwjNI9WfSKi01b_1HEi6NRir4SHeqlPvsYfHAOXxQkmvn7yInzxpBto8FPrQhNlibjCjfZk4l39_WGFB_7kzOH3T5X9BYPS9pLq38CYUhxhkFecOFc9VqiImyYs7HCqF7zYaDROp5zCQcejWTk-9V44wHsEe0gXzyTzT5hGUSWUmK-CG-QfTC3NceyL0Nei0DW5FFbDpU8x39vXw6CM6A2NHABVLGgHNUI" alt="Earth"/>
+            <div id="launch-origin-avatar" class="relative w-16 h-16 rounded-full bg-surface-container-high shadow-[0_0_24px_rgba(0,240,255,0.45)] flex items-center justify-center overflow-hidden border border-primary-container/40">
+              <img id="launch-origin-img" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQf15NHYnje8s0G3NFJLwjNI9WfSKi01b_1HEi6NRir4SHeqlPvsYfHAOXxQkmvn7yInzxpBto8FPrQhNlibjCjfZk4l39_WGFB_7kzOH3T5X9BYPS9pLq38CYUhxhkFecOFc9VqiImyYs7HCqF7zYaDROp5zCQcejWTk-9V44wHsEe0gXzyTzT5hGUSWUmK-CG-QfTC3NceyL0Nei0DW5FFbDpU8x39vXw6CM6A2NHABVLGgHNUI" alt="Earth"/>
             </div>
-            <span class="font-hud-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mt-1.5 font-bold">Earth</span>
+            <span id="launch-origin-name" class="font-hud-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider mt-1.5 font-bold">Earth</span>
           </div>
 
           <!-- Trajectory SVG Path -->
@@ -380,12 +380,12 @@
             <div class="absolute -inset-1 rounded-full bg-primary-container/20 animate-radar pointer-events-none"></div>
           </div>
 
-          <!-- Moon Right -->
+          <!-- Target Right -->
           <div class="relative z-10 flex flex-col items-center">
-            <div class="relative w-14 h-14 rounded-full bg-surface-container-high shadow-[0_0_24px_rgba(208,188,255,0.35)] flex items-center justify-center overflow-hidden border border-secondary/40">
-              <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9UHUGAupHEu2eooZ-e1qJ4BYrdXqWNXdlC7UXnKmKBfxwZ21wJzpj-q0vtsOzzdWY27EuNJ2sWg3i1Lmj-5tKdTvt3RJcOnfakA2uyaHp7Q8MRJeCYnxkI-Jv-UcKNBLAxQHFxZO-ZMF_gLvbW-bTDUq3FQDZNr0QpfbFhad2FShdIiN59fWOYEBTmggAo5UmBcwlZb5F6pZJU8IoFquF7r9X88i17ikgVbZj7vAcxV3Q0OJt8wpr" alt="Moon"/>
+            <div id="launch-target-avatar" class="relative w-14 h-14 rounded-full bg-surface-container-high shadow-[0_0_24px_rgba(208,188,255,0.35)] flex items-center justify-center overflow-hidden border border-secondary/40">
+              <img id="launch-target-img" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9UHUGAupHEu2eooZ-e1qJ4BYrdXqWNXdlC7UXnKmKBfxwZ21wJzpj-q0vtsOzzdWY27EuNJ2sWg3i1Lmj-5tKdTvt3RJcOnfakA2uyaHp7Q8MRJeCYnxkI-Jv-UcKNBLAxQHFxZO-ZMF_gLvbW-bTDUq3FQDZNr0QpfbFhad2FShdIiN59fWOYEBTmggAo5UmBcwlZb5F6pZJU8IoFquF7r9X88i17ikgVbZj7vAcxV3Q0OJt8wpr" alt="Moon"/>
             </div>
-            <span class="font-hud-label-sm text-[10px] text-secondary uppercase tracking-wider mt-1.5 font-bold">Moon</span>
+            <span id="launch-target-name" class="font-hud-label-sm text-[10px] text-secondary uppercase tracking-wider mt-1.5 font-bold">Moon</span>
           </div>
         </div>
 
@@ -406,6 +406,17 @@
         </div>
       </div>
 
+      <!-- Chapter 2 Quick Embark Banner (If ready) -->
+      <div id="chapter-2-banner" class="hidden p-3 rounded-2xl bg-surface-container-high border border-primary-container/40 flex items-center justify-between shadow-md">
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-[13px] font-bold text-on-surface">Chapter 2 Ready!</span>
+          <span class="text-[11px] text-on-surface-variant">Moon reached. Ready for the 54.6M KM Mars expedition?</span>
+        </div>
+        <button onclick="startMarsExpedition()" class="px-3 py-1.5 rounded-xl planet-btn-primary font-headline-sm text-[11px] font-bold uppercase shrink-0">
+          Start Chapter 2 →
+        </button>
+      </div>
+
       <!-- Big Manual Launch Rocket Action Button -->
       <div class="flex flex-col gap-2">
         <button id="launch-action-btn" onclick="launchRocket()" class="w-full py-4 rounded-2xl planet-btn-primary font-headline-sm text-[16px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_24px_var(--planet-glow)] active:scale-95 transition-all">
@@ -413,7 +424,7 @@
           <span>LAUNCH ROCKET NOW</span>
         </button>
 
-        <p class="text-[12px] text-center text-on-surface-variant">
+        <p id="launch-info-text" class="text-[12px] text-center text-on-surface-variant">
           Pressing launch burns ready fuel, moves the rocket closer to the Moon, and scans for space discoveries!
         </p>
       </div>
@@ -421,7 +432,7 @@
       <!-- Flight Stage Progression Guide (The Core Innovation) -->
       <div class="p-space-md rounded-2xl bg-surface-container-low border border-white/5 flex flex-col gap-2 shadow-md">
         <span class="font-headline-sm text-[14px] font-bold text-on-surface">Journey Stages</span>
-        <div class="grid grid-cols-5 gap-1 text-center font-hud-label-sm text-[10px] text-on-surface-variant">
+        <div id="launch-stage-guide" class="grid grid-cols-5 gap-1 text-center font-hud-label-sm text-[10px] text-on-surface-variant">
           <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-primary-container font-bold">Earth</span></div>
           <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">Orbit</span></div>
           <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">Space</span></div>
@@ -612,7 +623,7 @@
         </div>
 
         <!-- Moon -->
-        <div onclick="applyPlanetTheme('moon'); showToast('View set to Moon (Lavender Theme)', 'info')" class="p-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-secondary/40 flex items-center justify-between cursor-pointer transition-all shadow-[0_0_12px_rgba(208,188,255,0.2)]">
+        <div id="atlas-moon-card" onclick="applyPlanetTheme('moon'); showToast('View set to Moon (Lavender Theme)', 'info')" class="p-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-secondary/40 flex items-center justify-between cursor-pointer transition-all shadow-[0_0_12px_rgba(208,188,255,0.2)]">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-full overflow-hidden border border-secondary shadow-[0_0_12px_rgba(208,188,255,0.4)]">
               <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5" alt="Moon"/>
@@ -620,29 +631,29 @@
             <div class="flex flex-col">
               <div class="flex items-center gap-1.5">
                 <span class="font-headline-sm text-[14px] font-bold text-on-surface">2. Moon</span>
-                <span class="px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold">Target</span>
+                <span id="atlas-moon-badge" class="px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold">Target</span>
               </div>
-              <span class="text-[11px] text-on-surface-variant">Reach 100% on Launch tab to unlock!</span>
+              <span id="atlas-moon-desc" class="text-[11px] text-on-surface-variant">Reach 100% on Launch tab to unlock!</span>
             </div>
           </div>
-          <span class="material-symbols-outlined text-secondary">explore</span>
+          <span id="atlas-moon-icon" class="material-symbols-outlined text-secondary">explore</span>
         </div>
 
         <!-- Mars -->
-        <div onclick="applyPlanetTheme('mars'); showToast('Previewing Mars (Crimson Theme)', 'info')" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex items-center justify-between cursor-pointer opacity-75 hover:opacity-100 transition-all">
+        <div id="atlas-mars-card" onclick="handleAtlasMarsClick()" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex items-center justify-between cursor-pointer opacity-75 hover:opacity-100 transition-all">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full overflow-hidden border border-red-500/40">
+            <div class="w-12 h-12 rounded-full overflow-hidden border border-red-500/40 shadow-[0_0_12px_rgba(255,85,85,0.3)]">
               <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5" alt="Mars" style="filter: hue-rotate(330deg) saturate(2);"/>
             </div>
             <div class="flex flex-col">
               <div class="flex items-center gap-1.5">
                 <span class="font-headline-sm text-[14px] font-bold text-on-surface">3. Mars</span>
-                <span class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+                <span id="atlas-mars-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
               </div>
-              <span class="text-[11px] text-on-surface-variant">Chapter II Expedition</span>
+              <span id="atlas-mars-desc" class="text-[11px] text-on-surface-variant">Chapter II Expedition • 54.6M KM</span>
             </div>
           </div>
-          <span class="material-symbols-outlined text-on-surface-variant">lock</span>
+          <span id="atlas-mars-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
         </div>
 
       </div>
@@ -706,6 +717,17 @@
           </div>
           <input id="profile-sound-toggle" type="checkbox" checked onchange="toggleSound(this)" class="w-5 h-5 accent-primary-container cursor-pointer"/>
         </label>
+
+        <div class="pt-2 border-t border-white/5 flex flex-col gap-2">
+          <span class="text-[11px] text-primary-container uppercase font-bold tracking-wider flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">developer_mode</span>
+            Developer Testing Tools
+          </span>
+          <button onclick="devResetDailyLimits()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary-fixed border border-primary-container/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-primary-container">restart_alt</span>
+            <span>Reset Today's Limits (₹0 / 10 Saves)</span>
+          </button>
+        </div>
 
         <div class="pt-2 border-t border-white/5 flex flex-col gap-2">
           <span class="text-[11px] text-on-surface-variant">Reset savings data for demonstration purposes:</span>
@@ -805,6 +827,39 @@
     </div>
   </div>
 
+  <!-- Space Encounter & Launch Anomaly Modal -->
+  <div id="spaceEncounterModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+    <div class="relative w-full max-w-sm rounded-2xl bg-surface-container-low border border-primary-container/40 p-space-md flex flex-col gap-3 shadow-[0_0_40px_rgba(0,240,255,0.35)]">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center border border-white/10 shadow-sm">
+            <span id="encounterModalIcon" class="material-symbols-outlined text-[26px] text-tertiary-fixed">diamond</span>
+          </div>
+          <div class="flex flex-col">
+            <span id="encounterModalBadge" class="px-2 py-0.5 rounded-full font-hud-label-sm text-[9px] uppercase font-bold tracking-wider w-fit">ENCOUNTER</span>
+            <h3 id="encounterModalTitle" class="font-headline-sm text-[16px] font-bold text-on-surface">Deep Space Event</h3>
+          </div>
+        </div>
+        <button onclick="closeEncounterModal()" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-white">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+
+      <div class="p-3 rounded-xl bg-surface-container-lowest/80 border border-white/5">
+        <p id="encounterModalDesc" class="font-body-sm text-[12px] text-on-surface-variant leading-relaxed">
+          Anomaly detected along your rocket trajectory...
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <span class="font-hud-label-sm text-[10px] text-primary-container uppercase font-bold tracking-wider">Choose Tactical Action:</span>
+        <div id="encounterModalChoices" class="flex flex-col gap-2">
+          <!-- Dynamic action buttons injected by encounters.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ========================================================= -->
   <!-- FIXED BOTTOM NAVIGATION BAR (MAX 5 TABS)                  -->
   <!-- ========================================================= -->
@@ -850,6 +905,7 @@
   <script src="js/storage.js"></script>
   <script src="js/player.js"></script>
   <script src="js/discoveries.js"></script>
+  <script src="js/encounters.js"></script>
   <script src="js/journey.js"></script>
   <script src="js/upgrades.js"></script>
   <script src="js/savings.js"></script>
