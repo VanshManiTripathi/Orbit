@@ -406,7 +406,7 @@
         </div>
       </div>
 
-      <!-- Chapter 2 Quick Embark Banner (If ready) -->
+      <!-- Chapter Embarkation Banners (Chapters 2 to 5) -->
       <div id="chapter-2-banner" class="hidden p-3 rounded-2xl bg-surface-container-high border border-primary-container/40 flex items-center justify-between shadow-md">
         <div class="flex flex-col">
           <span class="font-headline-sm text-[13px] font-bold text-on-surface">Chapter 2 Ready!</span>
@@ -415,6 +415,43 @@
         <button onclick="startMarsExpedition()" class="px-3 py-1.5 rounded-xl planet-btn-primary font-headline-sm text-[11px] font-bold uppercase shrink-0">
           Start Chapter 2 →
         </button>
+      </div>
+
+      <div id="chapter-3-banner" class="hidden p-3 rounded-2xl bg-surface-container-high border border-[#ffb95f]/40 flex items-center justify-between shadow-md">
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-[13px] font-bold text-on-surface">Chapter 3 Ready!</span>
+          <span class="text-[11px] text-on-surface-variant">Mars colonized. Embark on the 588M KM voyage to Jupiter?</span>
+        </div>
+        <button onclick="startJupiterExpedition()" class="px-3 py-1.5 rounded-xl bg-[#ffb95f] text-[#050816] font-headline-sm text-[11px] font-bold uppercase shrink-0 shadow-md">
+          Start Chapter 3 →
+        </button>
+      </div>
+
+      <div id="chapter-4-banner" class="hidden p-3 rounded-2xl bg-surface-container-high border border-[#34d399]/40 flex items-center justify-between shadow-md">
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-[13px] font-bold text-on-surface">Chapter 4 Ready!</span>
+          <span class="text-[11px] text-on-surface-variant">Jupiter conquered. Ready for the 650M KM flight to Saturn's Rings?</span>
+        </div>
+        <button onclick="startSaturnExpedition()" class="px-3 py-1.5 rounded-xl bg-[#34d399] text-[#050816] font-headline-sm text-[11px] font-bold uppercase shrink-0 shadow-md">
+          Start Chapter 4 →
+        </button>
+      </div>
+
+      <div id="chapter-5-banner" class="hidden p-3 rounded-2xl bg-surface-container-high border border-[#38bdf8]/40 flex items-center justify-between shadow-md">
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-[13px] font-bold text-on-surface">Chapter 5: Final Frontier!</span>
+          <span class="text-[11px] text-on-surface-variant">Saturn conquered. Reach Neptune at the edge of the Solar System (1.5B KM)!</span>
+        </div>
+        <button onclick="startNeptuneExpedition()" class="px-3 py-1.5 rounded-xl bg-[#38bdf8] text-[#050816] font-headline-sm text-[11px] font-bold uppercase shrink-0 shadow-md">
+          Start Chapter 5 →
+        </button>
+      </div>
+      <div id="chapter-completed-banner" class="hidden p-3 rounded-2xl bg-surface-container-highest border border-tertiary/40 flex items-center justify-between shadow-md">
+        <div class="flex flex-col">
+          <span class="font-headline-sm text-[13px] font-bold text-tertiary-fixed">🌟 Solar System Master!</span>
+          <span class="text-[11px] text-on-surface-variant">All 6 planets reached & all 6 flagships unlocked!</span>
+        </div>
+        <span class="material-symbols-outlined text-tertiary-fixed text-[24px]">workspace_premium</span>
       </div>
 
       <!-- Luna Defender Minigame Quick Terminal (Unlocks on reaching Moon) -->
@@ -434,6 +471,100 @@
         <button onclick="openLunaShooter()" class="px-3 py-1.5 rounded-xl bg-secondary text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
           Play Arcade →
         </button>
+      </div>
+
+      <!-- Mars Rover Rush Minigame Quick-Launcher Banner -->
+      <div id="launch-mars-rover-banner" class="hidden p-3 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-red-500/20 flex items-center justify-center text-red-400 border border-red-500/30 shadow-[0_0_12px_rgba(239,68,68,0.35)]">
+            <span class="material-symbols-outlined text-[22px]">directions_car</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[13px] font-bold text-on-surface">Mars Rover Rush</span>
+              <span id="launch-mars-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary/20 text-tertiary text-[9px] font-bold">Best: 0</span>
+            </div>
+            <span class="text-[11px] text-on-surface-variant">Valles Marineris Canyon Runner</span>
+          </div>
+        </div>
+        <button onclick="openMarsRover()" class="px-3 py-1.5 rounded-xl bg-red-500 text-white font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
+          Drive Rover →
+        </button>
+      </div>
+
+      <!-- Jovian Vortex Surfer Minigame Quick-Launcher Banner -->
+      <div id="launch-jupiter-surfer-banner" class="hidden p-3 rounded-2xl bg-[#ffb95f]/10 border border-[#ffb95f]/30 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#ffb95f]/20 flex items-center justify-center text-[#ffb95f] border border-[#ffb95f]/30 shadow-[0_0_12px_rgba(255,185,95,0.35)]">
+            <span class="material-symbols-outlined text-[22px]">cyclone</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[13px] font-bold text-on-surface">Jovian Vortex Surfer</span>
+              <span id="launch-jupiter-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary/20 text-tertiary text-[9px] font-bold">Best: 0</span>
+            </div>
+            <span class="text-[11px] text-on-surface-variant">Great Red Spot Gravity Surfer</span>
+          </div>
+        </div>
+        <button onclick="openJupiterSurfer()" class="px-3 py-1.5 rounded-xl bg-[#ffb95f] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
+          Ride Storm →
+        </button>
+      </div>
+
+      <!-- Saturn Ringrunner Quick Launch Banner (Gated behind Saturn) -->
+      <div id="launch-saturn-runner-banner" class="hidden p-3 rounded-2xl bg-surface-container-low border border-[#34d399]/30 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#34d399]/20 border border-[#34d399]/40 flex items-center justify-center text-[#34d399] shadow-[0_0_8px_rgba(52,211,153,0.3)]">
+            <span class="material-symbols-outlined text-[20px]">crisis_alert</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[13px] font-bold text-on-surface">Saturn Ringrunner</span>
+              <span id="launch-saturn-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary/20 text-tertiary text-[9px] font-bold">Best: 0</span>
+            </div>
+            <span class="text-[11px] text-on-surface-variant">Chronos Ice Ring Slalom</span>
+          </div>
+        </div>
+        <button onclick="openSaturnRing()" class="px-3 py-1.5 rounded-xl bg-[#34d399] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
+          Fly Slalom →
+        </button>
+      </div>
+
+      <!-- Neptune Void Pulse Quick Launch Banner (Gated behind Neptune) -->
+      <div id="launch-neptune-pulse-banner" class="hidden p-3 rounded-2xl bg-surface-container-low border border-[#38bdf8]/30 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-[#38bdf8]/20 border border-[#38bdf8]/40 flex items-center justify-center text-[#38bdf8] shadow-[0_0_8px_rgba(56,189,248,0.3)]">
+            <span class="material-symbols-outlined text-[20px]">stars</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[13px] font-bold text-on-surface">Neptune Void Pulse</span>
+              <span id="launch-neptune-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary/20 text-tertiary text-[9px] font-bold">Best: 0</span>
+            </div>
+            <span class="text-[11px] text-on-surface-variant">Kuiper Phase-Shift Runner</span>
+          </div>
+        </div>
+        <button onclick="openNeptuneVoid()" class="px-3 py-1.5 rounded-xl bg-[#38bdf8] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
+          Phase Void →
+        </button>
+      </div>
+
+      <!-- Daily Rocket Launch Cap Tracker (Max 5 / Day) -->
+      <div class="p-3 rounded-2xl bg-surface-container-low border border-white/10 flex flex-col gap-2 shadow-md">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary-container text-[18px]">event_repeat</span>
+            <span class="font-headline-sm text-[13px] font-bold text-on-surface">Daily Launches</span>
+          </div>
+          <span id="launch-cap-status-text" class="font-hud-label-sm text-[11px] font-bold text-primary-fixed">5 of 5 Left Today</span>
+        </div>
+        <!-- 5 Visual Slot Indicators -->
+        <div id="launch-slot-indicators" class="flex items-center gap-1.5 w-full">
+          <!-- Populated dynamically by ui.js -->
+        </div>
+        <div id="launch-cap-alert" class="hidden p-2 rounded-xl bg-error-container/20 border border-error/30 text-error text-center text-[11px] font-bold">
+          ⚠️ Daily launch cap reached (5/5 used). Resets at midnight!
+        </div>
       </div>
 
       <!-- Big Manual Launch Rocket Action Button -->
@@ -467,13 +598,40 @@
     <!-- ========================================================= -->
     <div id="tab-rocket" class="tab-content hidden flex-col w-full gap-space-md">
       
-      <!-- Hangar Header -->
-      <div class="p-space-md rounded-2xl bg-surface-container border border-primary-container/20 shadow-xl flex items-center justify-between">
-        <div class="flex flex-col">
-          <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Avionics Bay</span>
-          <h2 class="font-headline-sm text-[18px] font-bold text-on-surface">Aegis-VII Spacecraft</h2>
+      <!-- Fleet Hangar Selector -->
+      <div class="p-3.5 rounded-2xl bg-surface-container border border-white/10 flex flex-col gap-2.5 shadow-xl">
+        <div class="flex items-center justify-between px-1">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary-container text-[20px]">flight</span>
+            <span class="font-headline-sm text-[15px] font-bold text-on-surface">Fleet Hangar</span>
+          </div>
+          <span id="hangar-fleet-count" class="font-hud-label-sm text-[11px] font-bold text-primary-container">1 of 6 Flagships</span>
         </div>
-        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest border border-tertiary/30">
+        <p class="text-[11px] text-on-surface-variant px-1">
+          Unlock a new spaceship at every planet you reach! Tap an unlocked vessel to fly and upgrade it.
+        </p>
+        <!-- Horizontal Scrollable Fleet Cards -->
+        <div id="hangar-fleet-scroll" class="flex gap-2.5 overflow-x-auto pb-1.5 pt-0.5">
+          <!-- Injected dynamically by ui.js -->
+        </div>
+      </div>
+
+      <!-- Active Ship Schematic & Avionics Bay Header -->
+      <div class="p-space-md rounded-2xl bg-surface-container border border-primary-container/20 shadow-xl flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 rounded-xl overflow-hidden border border-primary-container/40 shrink-0 bg-black/40 shadow-[0_0_12px_var(--planet-glow)]">
+            <img id="active-ship-avatar-img" src="assests/ship_aegis.jpg" alt="Active Ship" class="w-full h-full object-cover" />
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Active Flagship</span>
+              <span id="active-ship-badge" class="px-2 py-0.2 rounded-full bg-primary-container/20 text-primary-container text-[9px] font-bold">Earth Origin</span>
+            </div>
+            <h2 id="active-ship-name" class="font-headline-sm text-[18px] font-bold text-on-surface">Aegis-VII Hopper</h2>
+            <p id="active-ship-desc" class="text-[11px] text-on-surface-variant line-clamp-1 mt-0.5">Standard cadet atmospheric shuttle with balanced ion drives.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-lowest border border-tertiary/30 shrink-0">
           <span class="material-symbols-outlined text-tertiary-fixed text-[16px]">diamond</span>
           <span id="hangar-credits-display" class="font-hud-label-sm text-[13px] font-bold text-tertiary">0 Credits</span>
         </div>
@@ -482,7 +640,7 @@
       <!-- Interactive Rocket Schematic with Clickable Hotspots -->
       <div class="relative h-48 w-full rounded-2xl bg-surface-container-lowest overflow-hidden border border-white/10 flex items-center justify-center">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,240,255,0.08),transparent_70%)] pointer-events-none"></div>
-        <img class="h-full w-full object-cover mix-blend-screen opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0lbI8MVtPBIAYSSyABucT-8hjjco_co2pDWFf0fdZeCdZLtK-2deWXIPvxN_SqTFus9bqhPOgwtHPnVGjUDbYxqEdkoG-XNRKGkhPT2AosrNfGwX7iLPOnL_Wh4kMyNfteRCWkFzOt6YlPKTdauJHt64E97mHYewVMT-DCFMAjOhMFZ8vbch97bEvOf0rvZOW1I1XiMIkCgLoni3J6Zlh5aRl6shGMl0f_gSzGgksb-qPJgOEkSNa" alt="Rocket Blueprint"/>
+        <img id="active-ship-blueprint-img" class="h-full w-full object-cover mix-blend-screen opacity-90" src="assests/ship_aegis.jpg" alt="Rocket Blueprint"/>
 
         <!-- Interactive Hotspots -->
         <button onclick="highlightRocketModule('scanner')" title="Scanner Antenna" class="absolute top-4 right-1/3 p-1 rounded-full bg-tertiary/20 hover:bg-tertiary/40 border border-tertiary hotspot-ring text-tertiary">
@@ -680,20 +838,155 @@
         </div>
 
         <!-- Mars -->
-        <div id="atlas-mars-card" onclick="handleAtlasMarsClick()" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex items-center justify-between cursor-pointer opacity-75 hover:opacity-100 transition-all">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full overflow-hidden border border-red-500/40 shadow-[0_0_12px_rgba(255,85,85,0.3)]">
-              <img class="w-full h-full object-cover" src="assests/mars.jpg" alt="Mars"/>
-            </div>
-            <div class="flex flex-col">
-              <div class="flex items-center gap-1.5">
-                <span class="font-headline-sm text-[14px] font-bold text-on-surface">3. Mars</span>
-                <span id="atlas-mars-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+        <div id="atlas-mars-card" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex flex-col gap-2.5 opacity-75 hover:opacity-100 transition-all">
+          <div onclick="handleAtlasMarsClick()" class="flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full overflow-hidden border border-red-500/40 shadow-[0_0_12px_rgba(255,85,85,0.3)]">
+                <img class="w-full h-full object-cover" src="assests/mars.jpg" alt="Mars"/>
               </div>
-              <span id="atlas-mars-desc" class="text-[11px] text-on-surface-variant">Chapter II Expedition • 54.6M KM</span>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[14px] font-bold text-on-surface">3. Mars</span>
+                  <span id="atlas-mars-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+                </div>
+                <span id="atlas-mars-desc" class="text-[11px] text-on-surface-variant">Chapter II Expedition • 54.6M KM</span>
+              </div>
             </div>
+            <span id="atlas-mars-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
           </div>
-          <span id="atlas-mars-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
+
+          <!-- Mars Rover Rush Minigame Module -->
+          <div id="atlas-mars-minigame-card" class="p-2.5 rounded-xl bg-surface-container-lowest/80 border border-red-500/25 flex items-center justify-between shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center text-red-400 shadow-[0_0_8px_rgba(239,68,68,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">directions_car</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[12px] font-bold text-on-surface">Mars Rover Rush</span>
+                  <span id="atlas-mars-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary-fixed text-[9px] font-bold">Best: 0</span>
+                </div>
+                <span id="atlas-mars-status-desc" class="text-[10px] text-on-surface-variant">Reach Mars to unlock canyon runner</span>
+              </div>
+            </div>
+            <button id="atlas-mars-btn" onclick="event.stopPropagation(); openMarsRover();" class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all">
+              Locked
+            </button>
+          </div>
+        </div>
+
+        <!-- Jupiter (Planet 4) -->
+        <div id="atlas-jupiter-card" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex flex-col gap-2.5 opacity-75 hover:opacity-100 transition-all">
+          <div onclick="handleAtlasJupiterClick()" class="flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full overflow-hidden border border-[#ffb95f]/40 shadow-[0_0_12px_rgba(255,185,95,0.3)] shrink-0">
+                <img class="w-full h-full object-cover" src="assests/jupiter.jpg" alt="Jupiter"/>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[14px] font-bold text-on-surface">4. Jupiter</span>
+                  <span id="atlas-jupiter-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+                </div>
+                <span id="atlas-jupiter-desc" class="text-[11px] text-on-surface-variant">Chapter III • Unlocks Jovian Titan Dreadnought</span>
+              </div>
+            </div>
+            <span id="atlas-jupiter-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
+          </div>
+
+          <!-- Jovian Vortex Surfer Minigame Module -->
+          <div id="atlas-jupiter-minigame-card" class="p-2.5 rounded-xl bg-surface-container-lowest/80 border border-[#ffb95f]/25 flex items-center justify-between shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#ffb95f]/20 flex items-center justify-center text-[#ffb95f] shadow-[0_0_8px_rgba(255,185,95,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">cyclone</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[12px] font-bold text-on-surface">Jovian Vortex Surfer</span>
+                  <span id="atlas-jupiter-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary-fixed text-[9px] font-bold">Best: 0</span>
+                </div>
+                <span id="atlas-jupiter-status-desc" class="text-[10px] text-on-surface-variant">Reach Jupiter to unlock storm surfer</span>
+              </div>
+            </div>
+            <button id="atlas-jupiter-btn" onclick="event.stopPropagation(); openJupiterSurfer();" class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all">
+              Locked
+            </button>
+          </div>
+        </div>
+
+        <!-- Saturn (Planet 5) -->
+        <div id="atlas-saturn-card" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex flex-col gap-2.5 opacity-75 hover:opacity-100 transition-all">
+          <div onclick="handleAtlasSaturnClick()" class="flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full overflow-hidden border border-[#34d399]/40 shadow-[0_0_12px_rgba(52,211,153,0.3)] shrink-0">
+                <img class="w-full h-full object-cover" src="assests/saturn.jpg" alt="Saturn"/>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[14px] font-bold text-on-surface">5. Saturn</span>
+                  <span id="atlas-saturn-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+                </div>
+                <span id="atlas-saturn-desc" class="text-[11px] text-on-surface-variant">Chapter IV • Unlocks Chronos Ringrunner</span>
+              </div>
+            </div>
+            <span id="atlas-saturn-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
+          </div>
+
+          <!-- Saturn Ringrunner Minigame Module -->
+          <div id="atlas-saturn-minigame-card" class="p-2.5 rounded-xl bg-surface-container-lowest/80 border border-[#34d399]/25 flex items-center justify-between shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#34d399]/20 flex items-center justify-center text-[#34d399] shadow-[0_0_8px_rgba(52,211,153,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">crisis_alert</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[12px] font-bold text-on-surface">Saturn Ringrunner</span>
+                  <span id="atlas-saturn-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary-fixed text-[9px] font-bold">Best: 0</span>
+                </div>
+                <span id="atlas-saturn-status-desc" class="text-[10px] text-on-surface-variant">Reach Saturn to unlock ring slalom</span>
+              </div>
+            </div>
+            <button id="atlas-saturn-btn" onclick="event.stopPropagation(); openSaturnRing();" class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all">
+              Locked
+            </button>
+          </div>
+        </div>
+
+        <!-- Neptune (Planet 6) -->
+        <div id="atlas-neptune-card" class="p-3 rounded-xl bg-surface-container/50 border border-white/5 flex flex-col gap-2.5 opacity-75 hover:opacity-100 transition-all">
+          <div onclick="handleAtlasNeptuneClick()" class="flex items-center justify-between cursor-pointer">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full overflow-hidden border border-[#38bdf8]/40 shadow-[0_0_12px_rgba(56,189,248,0.3)] shrink-0">
+                <img class="w-full h-full object-cover" src="assests/neptune.jpg" alt="Neptune"/>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[14px] font-bold text-on-surface">6. Neptune</span>
+                  <span id="atlas-neptune-badge" class="px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold">Locked</span>
+                </div>
+                <span id="atlas-neptune-desc" class="text-[11px] text-on-surface-variant">Chapter V • Unlocks Neptune Void Sovereign</span>
+              </div>
+            </div>
+            <span id="atlas-neptune-icon" class="material-symbols-outlined text-on-surface-variant">lock</span>
+          </div>
+
+          <!-- Neptune Void Pulse Minigame Module -->
+          <div id="atlas-neptune-minigame-card" class="p-2.5 rounded-xl bg-surface-container-lowest/80 border border-[#38bdf8]/25 flex items-center justify-between shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-[#38bdf8]/20 flex items-center justify-center text-[#38bdf8] shadow-[0_0_8px_rgba(56,189,248,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">stars</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[12px] font-bold text-on-surface">Neptune Void Pulse</span>
+                  <span id="atlas-neptune-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary-fixed text-[9px] font-bold">Best: 0</span>
+                </div>
+                <span id="atlas-neptune-status-desc" class="text-[10px] text-on-surface-variant">Reach Neptune to unlock phase runner</span>
+              </div>
+            </div>
+            <button id="atlas-neptune-btn" onclick="event.stopPropagation(); openNeptuneVoid();" class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all">
+              Locked
+            </button>
+          </div>
         </div>
 
       </div>
@@ -770,6 +1063,34 @@
           <button onclick="devToggleMoonUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-secondary border border-secondary/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
             <span class="material-symbols-outlined text-[16px] text-secondary">sports_esports</span>
             <span id="dev-moon-toggle-text">Dev: Toggle Moon Unlock (Test Minigame)</span>
+          </button>
+          <button onclick="devToggleMarsUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-red-400 border border-red-500/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-red-400">directions_car</span>
+            <span id="dev-mars-toggle-text">Dev: Toggle Mars Unlock (Test Rover)</span>
+          </button>
+          <button onclick="devToggleJupiterUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#ffb95f] border border-[#ffb95f]/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-[#ffb95f]">cyclone</span>
+            <span id="dev-jupiter-toggle-text">Dev: Toggle Jupiter Unlock (Test Surfer)</span>
+          </button>
+          <button onclick="devToggleSaturnUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#34d399] border border-[#34d399]/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-[#34d399]">crisis_alert</span>
+            <span id="dev-saturn-toggle-text">Dev: Toggle Saturn Unlock (Test Ringrunner)</span>
+          </button>
+          <button onclick="devToggleNeptuneUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-[#38bdf8] border border-[#38bdf8]/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-[#38bdf8]">stars</span>
+            <span id="dev-neptune-toggle-text">Dev: Toggle Neptune Unlock (Test Void Pulse)</span>
+          </button>
+          <button onclick="devToggleLaunchLimit()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary-container border border-primary-container/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-primary-container">power_settings_new</span>
+            <span id="dev-launch-limit-toggle-text">Dev: Toggle 5-Launch Limit (Enabled)</span>
+          </button>
+          <button onclick="devResetLaunchCount()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-tertiary-fixed border border-tertiary/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-tertiary-fixed">replay</span>
+            <span>Dev: Reset Launches Today (0/5 Used)</span>
+          </button>
+          <button onclick="devUnlockAllPlanetsAndShips()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-secondary border border-secondary/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-secondary">rocket</span>
+            <span>Dev: Unlock All 6 Planets & Flagships</span>
           </button>
         </div>
 
@@ -1023,6 +1344,472 @@
     </div>
   </div>
 
+  <!-- Mars Rover Rush Arcade Modal -->
+  <div id="marsRoverModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-xl p-2 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-sm rounded-3xl bg-surface-container-lowest border border-red-500/40 p-3 sm:p-4 flex flex-col items-center gap-2.5 shadow-[0_0_50px_rgba(239,68,68,0.3)] my-auto">
+      
+      <!-- Minigame Top Bar -->
+      <div class="w-full flex items-center justify-between px-1">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-400 shadow-[0_0_10px_rgba(239,68,68,0.4)]">
+            <span class="material-symbols-outlined text-[18px]">directions_car</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-display-hero text-[13px] font-bold uppercase tracking-wider text-red-400">Mars Rover Rush</span>
+              <span id="marsRoverLevel" class="px-1.5 py-0.2 rounded-full bg-surface-container-high border border-white/10 font-hud-label-sm text-[9px] text-red-300 font-bold">VALLES SECTOR 1</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">Canyon Runner</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="marsRoverPauseBtn" onclick="togglePauseMarsRover()" title="Pause Game" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">pause</span>
+          </button>
+          <button onclick="closeMarsRover()" title="Exit Simulator" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Score & Armor Bar -->
+      <div class="w-full grid grid-cols-3 gap-2 px-2 py-1.5 rounded-xl bg-surface-container-low/90 border border-white/5 font-hud-label-sm text-center">
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Score</span>
+          <span id="marsRoverScore" class="font-metric-readout text-[15px] font-bold text-red-400">0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">High Score</span>
+          <span id="marsRoverHigh" class="font-metric-readout text-[15px] font-bold text-tertiary-fixed">0</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Armor</span>
+          <div id="marsRoverShields" class="flex items-center gap-0.5 mt-0.5 text-red-400">
+            <!-- Shield icons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Arena -->
+      <div class="relative w-full aspect-[400/560] max-h-[48vh] rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-red-500/20">
+        <canvas id="marsRoverCanvas" width="400" height="560" class="w-full h-full object-contain"></canvas>
+        <div class="arcade-crt-overlay absolute inset-0"></div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="marsRoverGameOver" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-black/85 backdrop-blur-md p-4 text-center">
+          <div class="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-[#ff5555] mb-2 shadow-[0_0_20px_rgba(255,85,85,0.5)]">
+            <span class="material-symbols-outlined text-[32px]">warning</span>
+          </div>
+          <span class="font-display-hero text-[18px] font-bold uppercase tracking-wider text-error">ROVER CRUSHED</span>
+          <span id="marsRoverRecordBadge" class="hidden my-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/30 border border-tertiary text-tertiary-fixed font-hud-label-sm text-[10px] font-bold">
+            🏆 NEW ALL-TIME HIGH SCORE!
+          </span>
+          <p class="text-[12px] text-on-surface-variant mt-0.5">Your Ares Rover collided with canyon terrain.</p>
+
+          <div class="grid grid-cols-2 gap-3 w-full max-w-[240px] my-2.5 p-2.5 rounded-xl bg-surface-container-lowest/90 border border-white/5 font-hud-label-sm text-center">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">Final Score</span>
+              <span id="marsRoverFinalScore" class="font-metric-readout text-[16px] font-bold text-red-400">0</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">High Score</span>
+              <span id="marsRoverBestScore" class="font-metric-readout text-[16px] font-bold text-tertiary-fixed">0</span>
+            </div>
+          </div>
+
+          <span id="marsRoverWaveReached" class="font-hud-label-sm text-[11px] text-red-300 font-medium mb-3">Valles Sector 1</span>
+
+          <div class="flex flex-col gap-2 w-full max-w-[240px]">
+            <button onclick="restartMarsRover()" class="w-full py-2.5 rounded-full bg-red-500 text-white font-headline-sm text-[13px] uppercase font-bold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">replay</span>
+              <span>Relaunch (Reset to Base)</span>
+            </button>
+            <button onclick="closeMarsRover()" class="w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high border border-white/10 font-headline-sm text-[12px] text-on-surface-variant uppercase font-medium transition-colors">
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="w-full flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-2 w-full pt-1">
+          <div class="flex items-center gap-2">
+            <button id="btnMarsLeft" aria-label="Steer Left" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-red-400 shadow-md active:bg-red-500 active:text-white">
+              <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </button>
+            <button id="btnMarsRight" aria-label="Steer Right" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-red-400 shadow-md active:bg-red-500 active:text-white">
+              <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+            </button>
+          </div>
+          <button id="btnMarsJump" aria-label="Jump Obstacle" class="arcade-touch-btn flex-1 h-11 rounded-xl bg-gradient-to-r from-red-600 to-orange-500 text-white font-headline-sm text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(239,68,68,0.4)] active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">flight_takeoff</span>
+            <span>Jump Boost</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-on-surface-variant font-mono px-1">
+          <span>PC: Arrows / A-D + Space to Jump</span>
+          <span>Resets to Base upon death</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Jovian Vortex Surfer Arcade Modal -->
+  <div id="jupiterSurferModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-xl p-2 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-sm rounded-3xl bg-surface-container-lowest border border-[#ffb95f]/40 p-3 sm:p-4 flex flex-col items-center gap-2.5 shadow-[0_0_50px_rgba(255,185,95,0.3)] my-auto">
+      
+      <!-- Minigame Top Bar -->
+      <div class="w-full flex items-center justify-between px-1">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-[#ffb95f]/20 border border-[#ffb95f]/40 flex items-center justify-center text-[#ffb95f] shadow-[0_0_10px_rgba(255,185,95,0.4)]">
+            <span class="material-symbols-outlined text-[18px]">cyclone</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-display-hero text-[13px] font-bold uppercase tracking-wider text-[#ffb95f]">Jovian Surfer</span>
+              <span id="jupiterSurferLevel" class="px-1.5 py-0.2 rounded-full bg-surface-container-high border border-white/10 font-hud-label-sm text-[9px] text-[#ffb95f] font-bold">STORM TIER 1</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">Great Red Spot</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="jupiterSurferPauseBtn" onclick="togglePauseJupiterSurfer()" title="Pause Game" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">pause</span>
+          </button>
+          <button onclick="closeJupiterSurfer()" title="Exit Simulator" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Score & Shields Bar -->
+      <div class="w-full grid grid-cols-3 gap-2 px-2 py-1.5 rounded-xl bg-surface-container-low/90 border border-white/5 font-hud-label-sm text-center">
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Score</span>
+          <span id="jupiterSurferScore" class="font-metric-readout text-[15px] font-bold text-[#ffb95f]">0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">High Score</span>
+          <span id="jupiterSurferHigh" class="font-metric-readout text-[15px] font-bold text-tertiary-fixed">0</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Deflectors</span>
+          <div id="jupiterSurferShields" class="flex items-center gap-0.5 mt-0.5 text-[#ffb95f]">
+            <!-- Shield icons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Deflector Pulse Energy Meter -->
+      <div class="w-full flex items-center gap-2 px-1">
+        <span class="text-[9px] uppercase tracking-wider text-on-surface-variant font-mono">Pulse:</span>
+        <div class="flex-1 h-1.5 rounded-full bg-surface-container overflow-hidden">
+          <div id="jupiterShieldEnergyBar" class="h-full rounded-full bg-gradient-to-r from-amber-500 to-cyan-400 transition-all duration-200" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Arena -->
+      <div class="relative w-full aspect-[400/560] max-h-[48vh] rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-[#ffb95f]/20">
+        <canvas id="jupiterSurferCanvas" width="400" height="560" class="w-full h-full object-contain"></canvas>
+        <div class="arcade-crt-overlay absolute inset-0"></div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="jupiterSurferGameOver" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-black/85 backdrop-blur-md p-4 text-center">
+          <div class="w-14 h-14 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-[#ffb95f] mb-2 shadow-[0_0_20px_rgba(255,185,95,0.5)]">
+            <span class="material-symbols-outlined text-[32px]">warning</span>
+          </div>
+          <span class="font-display-hero text-[18px] font-bold uppercase tracking-wider text-[#ffb95f]">VORTEX BREACH</span>
+          <span id="jupiterSurferRecordBadge" class="hidden my-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/30 border border-tertiary text-tertiary-fixed font-hud-label-sm text-[10px] font-bold">
+            🏆 NEW ALL-TIME HIGH SCORE!
+          </span>
+          <p class="text-[12px] text-on-surface-variant mt-0.5">Your flagship was consumed by the Great Red Spot.</p>
+
+          <div class="grid grid-cols-2 gap-3 w-full max-w-[240px] my-2.5 p-2.5 rounded-xl bg-surface-container-lowest/90 border border-white/5 font-hud-label-sm text-center">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">Final Score</span>
+              <span id="jupiterSurferFinalScore" class="font-metric-readout text-[16px] font-bold text-[#ffb95f]">0</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">High Score</span>
+              <span id="jupiterSurferBestScore" class="font-metric-readout text-[16px] font-bold text-tertiary-fixed">0</span>
+            </div>
+          </div>
+
+          <span id="jupiterSurferWaveReached" class="font-hud-label-sm text-[11px] text-[#ffb95f] font-medium mb-3">Storm Tier 1</span>
+
+          <div class="flex flex-col gap-2 w-full max-w-[240px]">
+            <button onclick="restartJupiterSurfer()" class="w-full py-2.5 rounded-full bg-[#ffb95f] text-[#050816] font-headline-sm text-[13px] uppercase font-bold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">replay</span>
+              <span>Relaunch (Reset to Base)</span>
+            </button>
+            <button onclick="closeJupiterSurfer()" class="w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high border border-white/10 font-headline-sm text-[12px] text-on-surface-variant uppercase font-medium transition-colors">
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="w-full flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-2 w-full pt-1">
+          <div class="flex items-center gap-2">
+            <button id="btnJupiterInner" aria-label="Inner Orbit" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#ffb95f] shadow-md active:bg-[#ffb95f] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">north</span>
+            </button>
+            <button id="btnJupiterOuter" aria-label="Outer Orbit" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#ffb95f] shadow-md active:bg-[#ffb95f] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">south</span>
+            </button>
+          </div>
+          <button id="btnJupiterPulse" aria-label="Shield Pulse" class="arcade-touch-btn flex-1 h-11 rounded-xl bg-gradient-to-r from-amber-500 to-cyan-500 text-[#050816] font-headline-sm text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(255,185,95,0.4)] active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">shield</span>
+            <span>Deflector Pulse</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-on-surface-variant font-mono px-1">
+          <span>PC: Up/Down to shift, F for Pulse</span>
+          <span>Resets to Base upon death</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Saturn Ringrunner Arcade Modal -->
+  <div id="saturnRingModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-xl p-2 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-sm rounded-3xl bg-surface-container-lowest border border-[#34d399]/40 p-3 sm:p-4 flex flex-col items-center gap-2.5 shadow-[0_0_50px_rgba(52,211,153,0.3)] my-auto">
+      
+      <!-- Minigame Top Bar -->
+      <div class="w-full flex items-center justify-between px-1">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-[#34d399]/20 border border-[#34d399]/40 flex items-center justify-center text-[#34d399] shadow-[0_0_10px_rgba(52,211,153,0.4)]">
+            <span class="material-symbols-outlined text-[18px]">crisis_alert</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-display-hero text-[13px] font-bold uppercase tracking-wider text-[#34d399]">Saturn Ringrunner</span>
+              <span id="saturnRingLevel" class="px-1.5 py-0.2 rounded-full bg-surface-container-high border border-white/10 font-hud-label-sm text-[9px] text-[#34d399] font-bold">RING SECTOR 1</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">Cassini Ring Division</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="saturnRingPauseBtn" onclick="togglePauseSaturnRing()" title="Pause Game" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">pause</span>
+          </button>
+          <button onclick="closeSaturnRing()" title="Exit Simulator" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Score & Shields Bar -->
+      <div class="w-full grid grid-cols-3 gap-2 px-2 py-1.5 rounded-xl bg-surface-container-low/90 border border-white/5 font-hud-label-sm text-center">
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Score</span>
+          <span id="saturnRingScore" class="font-metric-readout text-[15px] font-bold text-[#34d399]">0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">High Score</span>
+          <span id="saturnRingHighScore" class="font-metric-readout text-[15px] font-bold text-tertiary-fixed">0</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Shields</span>
+          <div id="saturnRingShields" class="flex items-center gap-0.5 mt-0.5 text-[#34d399]">
+            <!-- Shield icons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Arena -->
+      <div class="relative w-full aspect-[400/560] max-h-[48vh] rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-[#34d399]/20">
+        <canvas id="saturnRingCanvas" width="400" height="560" class="w-full h-full object-contain"></canvas>
+        <div class="arcade-crt-overlay absolute inset-0"></div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="saturnRingGameOver" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-black/85 backdrop-blur-md p-4 text-center">
+          <div class="w-14 h-14 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-[#34d399] mb-2 shadow-[0_0_20px_rgba(52,211,153,0.5)]">
+            <span class="material-symbols-outlined text-[32px]">warning</span>
+          </div>
+          <span class="font-display-hero text-[18px] font-bold uppercase tracking-wider text-[#34d399]">SLALOM DESTROYED</span>
+          <p class="text-[12px] text-on-surface-variant mt-0.5">Glaciers pulverized your Chronos Ringrunner.</p>
+
+          <div class="grid grid-cols-2 gap-3 w-full max-w-[240px] my-2.5 p-2.5 rounded-xl bg-surface-container-lowest/90 border border-white/5 font-hud-label-sm text-center">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">Final Score</span>
+              <span id="saturnRingFinalScore" class="font-metric-readout text-[16px] font-bold text-[#34d399]">0</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">High Score</span>
+              <span id="saturnRingFinalHighScore" class="font-metric-readout text-[16px] font-bold text-tertiary-fixed">0</span>
+            </div>
+          </div>
+
+          <span id="saturnRingFinalSector" class="font-hud-label-sm text-[11px] text-[#34d399] font-medium mb-3">Ring Sector 1</span>
+
+          <div class="flex flex-col gap-2 w-full max-w-[240px]">
+            <button onclick="restartSaturnRing()" class="w-full py-2.5 rounded-full bg-[#34d399] text-[#050816] font-headline-sm text-[13px] uppercase font-bold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">replay</span>
+              <span>Relaunch (Reset to Base)</span>
+            </button>
+            <button onclick="closeSaturnRing()" class="w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high border border-white/10 font-headline-sm text-[12px] text-on-surface-variant uppercase font-medium transition-colors">
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="w-full flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-2 w-full pt-1">
+          <div class="flex items-center gap-2">
+            <button id="btnSaturnLeft" aria-label="Steer Left" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#34d399] shadow-md active:bg-[#34d399] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </button>
+            <button id="btnSaturnRight" aria-label="Steer Right" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#34d399] shadow-md active:bg-[#34d399] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+            </button>
+          </div>
+          <button id="btnSaturnBoost" aria-label="Turbo Boost" class="arcade-touch-btn flex-1 h-11 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 text-[#050816] font-headline-sm text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(52,211,153,0.4)] active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">bolt</span>
+            <span>Turbo Boost</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-on-surface-variant font-mono px-1">
+          <span>PC: Arrows / WASD to steer, Space for Boost</span>
+          <span>Resets to Base upon death</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Neptune Void Pulse Arcade Modal -->
+  <div id="neptuneVoidModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-xl p-2 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-sm rounded-3xl bg-surface-container-lowest border border-[#38bdf8]/40 p-3 sm:p-4 flex flex-col items-center gap-2.5 shadow-[0_0_50px_rgba(56,189,248,0.3)] my-auto">
+      
+      <!-- Minigame Top Bar -->
+      <div class="w-full flex items-center justify-between px-1">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-[#38bdf8]/20 border border-[#38bdf8]/40 flex items-center justify-center text-[#38bdf8] shadow-[0_0_10px_rgba(56,189,248,0.4)]">
+            <span class="material-symbols-outlined text-[18px]">stars</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-display-hero text-[13px] font-bold uppercase tracking-wider text-[#38bdf8]">Neptune Void Pulse</span>
+              <span id="neptuneVoidLevel" class="px-1.5 py-0.2 rounded-full bg-surface-container-high border border-white/10 font-hud-label-sm text-[9px] text-[#38bdf8] font-bold">VOID SECTOR 1</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">Kuiper Boundary</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="neptuneVoidPauseBtn" onclick="togglePauseNeptuneVoid()" title="Pause Game" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">pause</span>
+          </button>
+          <button onclick="closeNeptuneVoid()" title="Exit Simulator" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Score & Shields Bar -->
+      <div class="w-full grid grid-cols-3 gap-2 px-2 py-1.5 rounded-xl bg-surface-container-low/90 border border-white/5 font-hud-label-sm text-center">
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Score</span>
+          <span id="neptuneVoidScore" class="font-metric-readout text-[15px] font-bold text-[#38bdf8]">0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">High Score</span>
+          <span id="neptuneVoidHighScore" class="font-metric-readout text-[15px] font-bold text-tertiary-fixed">0</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Shields</span>
+          <div id="neptuneVoidShields" class="flex items-center gap-0.5 mt-0.5 text-[#38bdf8]">
+            <!-- Shield icons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase Shift Energy Meter -->
+      <div class="w-full flex items-center gap-2 px-1">
+        <span class="text-[9px] uppercase tracking-wider text-on-surface-variant font-mono">Phase Energy:</span>
+        <div class="flex-1 h-2 rounded-full bg-surface-container overflow-hidden">
+          <div id="neptunePhaseBar" class="h-full rounded-full bg-[#38bdf8] shadow-[0_0_8px_#38bdf8] transition-all" style="width: 100%;"></div>
+        </div>
+      </div>
+
+      <!-- Interactive Canvas Arena -->
+      <div class="relative w-full aspect-[400/560] max-h-[48vh] rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center border border-[#38bdf8]/20">
+        <canvas id="neptuneVoidCanvas" width="400" height="560" class="w-full h-full object-contain"></canvas>
+        <div class="arcade-crt-overlay absolute inset-0"></div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="neptuneVoidGameOver" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-black/85 backdrop-blur-md p-4 text-center">
+          <div class="w-14 h-14 rounded-full bg-blue-500/20 border border-blue-500/40 flex items-center justify-center text-[#38bdf8] mb-2 shadow-[0_0_20px_rgba(56,189,248,0.5)]">
+            <span class="material-symbols-outlined text-[32px]">warning</span>
+          </div>
+          <span class="font-display-hero text-[18px] font-bold uppercase tracking-wider text-[#38bdf8]">VOID COLLAPSE</span>
+          <p class="text-[12px] text-on-surface-variant mt-0.5">The outer boundary void consumed your Sovereign.</p>
+
+          <div class="grid grid-cols-2 gap-3 w-full max-w-[240px] my-2.5 p-2.5 rounded-xl bg-surface-container-lowest/90 border border-white/5 font-hud-label-sm text-center">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">Final Score</span>
+              <span id="neptuneVoidFinalScore" class="font-metric-readout text-[16px] font-bold text-[#38bdf8]">0</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">High Score</span>
+              <span id="neptuneVoidFinalHighScore" class="font-metric-readout text-[16px] font-bold text-tertiary-fixed">0</span>
+            </div>
+          </div>
+
+          <span id="neptuneVoidFinalSector" class="font-hud-label-sm text-[11px] text-[#38bdf8] font-medium mb-3">Void Sector 1</span>
+
+          <div class="flex flex-col gap-2 w-full max-w-[240px]">
+            <button onclick="restartNeptuneVoid()" class="w-full py-2.5 rounded-full bg-[#38bdf8] text-[#050816] font-headline-sm text-[13px] uppercase font-bold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">replay</span>
+              <span>Relaunch (Reset to Base)</span>
+            </button>
+            <button onclick="closeNeptuneVoid()" class="w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high border border-white/10 font-headline-sm text-[12px] text-on-surface-variant uppercase font-medium transition-colors">
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Row -->
+      <div class="w-full flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-2 w-full pt-1">
+          <div class="flex items-center gap-2">
+            <button id="btnNeptuneLeft" aria-label="Steer Left" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#38bdf8] shadow-md active:bg-[#38bdf8] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </button>
+            <button id="btnNeptuneRight" aria-label="Steer Right" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-[#38bdf8] shadow-md active:bg-[#38bdf8] active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+            </button>
+          </div>
+          <button id="btnNeptunePhase" aria-label="Phase Shift Pulse" class="arcade-touch-btn flex-1 h-11 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-headline-sm text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(56,189,248,0.4)] active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">blur_on</span>
+            <span>Phase Shift</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-on-surface-variant font-mono px-1">
+          <span>PC: Arrows / WASD to steer, Space / F for Phase</span>
+          <span>Resets to Base upon death</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ========================================================= -->
   <!-- FIXED BOTTOM NAVIGATION BAR (MAX 5 TABS)                  -->
   <!-- ========================================================= -->
@@ -1074,6 +1861,10 @@
   <script src="js/savings.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/shooter.js"></script>
+  <script src="js/mars_minigame.js"></script>
+  <script src="js/jupiter_minigame.js"></script>
+  <script src="js/saturn_minigame.js"></script>
+  <script src="js/neptune_minigame.js"></script>
 
 </body>
 </html>

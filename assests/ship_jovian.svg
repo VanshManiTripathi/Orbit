@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Jupiter Nebula Gradient -->
+    <radialGradient id="spaceBg" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#3d1806"/>
+      <stop offset="60%" stop-color="#190902"/>
+      <stop offset="100%" stop-color="#050201"/>
+    </radialGradient>
+
+    <!-- Jupiter Planet Horizon -->
+    <linearGradient id="jupiterBands" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ea580c"/>
+      <stop offset="25%" stop-color="#ffb95f"/>
+      <stop offset="50%" stop-color="#b45309"/>
+      <stop offset="75%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+
+    <!-- Dreadnought Gold Hull Gradient -->
+    <linearGradient id="goldHull" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="35%" stop-color="#f59e0b"/>
+      <stop offset="75%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+
+    <!-- Heavy Armor Shadow -->
+    <linearGradient id="darkArmor" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#1e0b02"/>
+    </linearGradient>
+
+    <!-- Deflector Shield Glow -->
+    <linearGradient id="shieldGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#0284c7" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <radialGradient id="plasmaThrust" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Deep Cosmos Background -->
+  <rect width="500" height="500" fill="url(#spaceBg)"/>
+
+  <!-- Distant Stars -->
+  <g fill="#ffffff" opacity="0.65">
+    <circle cx="45" cy="80" r="1.2"/>
+    <circle cx="120" cy="40" r="1.8"/>
+    <circle cx="390" cy="65" r="1.5"/>
+    <circle cx="460" cy="190" r="1.2"/>
+    <circle cx="85" cy="420" r="1.4"/>
+    <circle cx="430" cy="440" r="1.6"/>
+  </g>
+
+  <!-- Jupiter Horizon Curve -->
+  <path d="M-50,480 Q250,280 550,480 L550,550 L-50,550 Z" fill="url(#jupiterBands)" opacity="0.85"/>
+  <ellipse cx="250" cy="410" rx="60" ry="25" fill="#dc2626" opacity="0.6"/> <!-- Great Red Spot hint -->
+
+  <!-- Electromagnetic Deflector Field -->
+  <ellipse cx="250" cy="240" rx="195" ry="115" fill="none" stroke="url(#shieldGlow)" stroke-width="3" stroke-dasharray="16 8" opacity="0.8"/>
+
+  <!-- Main Jovian Dreadnought Vessel -->
+  <g transform="translate(0, -10)">
+    <!-- Engine Thrust Flames -->
+    <ellipse cx="195" cy="380" rx="14" ry="40" fill="url(#plasmaThrust)"/>
+    <ellipse cx="250" cy="395" rx="18" ry="48" fill="url(#plasmaThrust)"/>
+    <ellipse cx="305" cy="380" rx="14" ry="40" fill="url(#plasmaThrust)"/>
+
+    <!-- Left Heavy Outrigger Wing -->
+    <polygon points="120,340 70,290 135,190 190,270" fill="url(#goldHull)"/>
+    <polygon points="70,290 55,275 110,185 135,190" fill="url(#darkArmor)"/>
+    <rect x="75" y="240" width="8" height="30" fill="#38bdf8" rx="2" opacity="0.85"/> <!-- Shield emitter -->
+
+    <!-- Right Heavy Outrigger Wing -->
+    <polygon points="380,340 430,290 365,190 310,270" fill="url(#goldHull)"/>
+    <polygon points="430,290 445,275 390,185 365,190" fill="url(#darkArmor)"/>
+    <rect x="417" y="240" width="8" height="30" fill="#38bdf8" rx="2" opacity="0.85"/> <!-- Shield emitter -->
+
+    <!-- Central Hull Armor -->
+    <polygon points="250,85 330,220 310,360 190,360 170,220" fill="url(#goldHull)"/>
+    
+    <!-- Central Armor Ridge Plates -->
+    <polygon points="250,110 300,220 285,340 215,340 200,220" fill="url(#darkArmor)"/>
+    <polygon points="250,130 280,215 270,320 230,320 220,215" fill="url(#goldHull)"/>
+
+    <!-- Command Bridge (Glowing Cyan Viewport) -->
+    <polygon points="250,155 268,195 232,195" fill="#38bdf8"/>
+    <polygon points="250,165 262,190 238,190" fill="#e0f2fe"/>
+
+    <!-- Hull Gilded Panels & Decals -->
+    <line x1="250" y1="210" x2="250" y2="310" stroke="#fde047" stroke-width="2.5" opacity="0.9"/>
+    <rect x="235" y="235" width="30" height="6" fill="#fde047" rx="1"/>
+    <rect x="238" y="255" width="24" height="4" fill="#38bdf8" rx="1"/>
+    <text x="250" y="295" fill="#fef08a" font-family="'Inter', sans-serif" font-weight="900" font-size="11" text-anchor="middle" letter-spacing="3">JOVIAN-IV</text>
+
+    <!-- Heavy Plasma Cannons -->
+    <rect x="180" y="165" width="8" height="45" fill="#1e293b" rx="2"/>
+    <rect x="312" y="165" width="8" height="45" fill="#1e293b" rx="2"/>
+    <circle cx="184" cy="165" r="3" fill="#f59e0b"/>
+    <circle cx="316" cy="165" r="3" fill="#f59e0b"/>
+  </g>
+</svg>

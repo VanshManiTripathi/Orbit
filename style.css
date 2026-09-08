@@ -33,6 +33,30 @@ html.theme-mars {
   --planet-border: rgba(255, 85, 85, 0.25);
 }
 
+/* Jupiter Theme (Golden Amber & Solar Storm) */
+html.theme-jupiter {
+  --planet-primary: #ffb95f;
+  --planet-primary-dim: #f59e0b;
+  --planet-glow: rgba(255, 185, 95, 0.45);
+  --planet-border: rgba(255, 185, 95, 0.25);
+}
+
+/* Saturn Theme (Ring Gold & Emerald Nebula) */
+html.theme-saturn {
+  --planet-primary: #34d399;
+  --planet-primary-dim: #10b981;
+  --planet-glow: rgba(52, 211, 153, 0.45);
+  --planet-border: rgba(52, 211, 153, 0.25);
+}
+
+/* Neptune Theme (Deep Cosmic Azure & Void Indigo) */
+html.theme-neptune {
+  --planet-primary: #38bdf8;
+  --planet-primary-dim: #818cf8;
+  --planet-glow: rgba(56, 189, 248, 0.45);
+  --planet-border: rgba(56, 189, 248, 0.25);
+}
+
 /* FIX SCROLL: Ensure HTML and BODY have natural vertical scrolling without viewport locks */
 html {
   width: 100%;

@@ -168,13 +168,19 @@ function triggerParticleBurst(originX, originY) {
 // -------------------------------------------------------------
 function applyPlanetTheme(planetKey) {
     const html = document.documentElement;
-    html.classList.remove("theme-earth", "theme-moon", "theme-mars");
+    html.classList.remove("theme-earth", "theme-moon", "theme-mars", "theme-jupiter", "theme-saturn", "theme-neptune");
 
     const key = (planetKey || "earth").toLowerCase();
     if (key.includes("moon")) {
         html.classList.add("theme-moon");
     } else if (key.includes("mars")) {
         html.classList.add("theme-mars");
+    } else if (key.includes("jupiter")) {
+        html.classList.add("theme-jupiter");
+    } else if (key.includes("saturn")) {
+        html.classList.add("theme-saturn");
+    } else if (key.includes("neptune")) {
+        html.classList.add("theme-neptune");
     } else {
         html.classList.add("theme-earth");
     }
@@ -454,50 +460,71 @@ function renderHUD() {
     }
 
     // ------------------------------------
-    // TAB 2: LAUNCH ROCKET (CHAPTER 1: MOON / CHAPTER 2: MARS)
+    // TAB 2: LAUNCH ROCKET (CHAPTERS 1 TO 5)
     // ------------------------------------
-    const isChapter2 = p.journey && (p.journey.chapter === 2 || (p.journey.currentPlanet === "Moon" && p.journey.targetPlanet === "Mars" && p.journey.progress < 100));
+    const ch = p.journey ? (p.journey.chapter || 1) : 1;
+
+    // Render Daily Launch Limit Slots (Max 5 per day)
+    const isLimitDisabled = Boolean(p.dailyLaunchLimitDisabled);
+    const launchesCount = p.dailyLimits ? (p.dailyLimits.launchesCountToday || 0) : 0;
+    const maxLaunches = 5;
+    const launchesLeft = Math.max(0, maxLaunches - launchesCount);
+
+    const capStatusText = document.getElementById("launch-cap-status-text");
+    if (capStatusText) {
+        capStatusText.textContent = isLimitDisabled ? "Unlimited (Dev Mode)" : `${launchesLeft} of ${maxLaunches} Left Today`;
+        capStatusText.className = isLimitDisabled
+            ? "font-hud-label-sm text-[11px] font-bold text-secondary"
+            : (launchesLeft <= 0 ? "font-hud-label-sm text-[11px] font-bold text-error" : "font-hud-label-sm text-[11px] font-bold text-primary-fixed");
+    }
+
+    const slotContainer = document.getElementById("launch-slot-indicators");
+    if (slotContainer) {
+        let slotsHtml = "";
+        for (let s = 1; s <= maxLaunches; s++) {
+            if (isLimitDisabled) {
+                slotsHtml += `<div class="h-2 flex-1 rounded-full bg-secondary/80 shadow-[0_0_6px_rgba(208,188,255,0.4)]" title="Dev Mode Unlimited"></div>`;
+            } else if (s <= launchesCount) {
+                slotsHtml += `<div class="h-2 flex-1 rounded-full bg-surface-container-highest opacity-40" title="Launch ${s} used"></div>`;
+            } else {
+                slotsHtml += `<div class="h-2 flex-1 rounded-full bg-primary-container shadow-[0_0_6px_var(--planet-primary)]" title="Launch ${s} available"></div>`;
+            }
+        }
+        slotContainer.innerHTML = slotsHtml;
+    }
+
+    const launchCapAlert = document.getElementById("launch-cap-alert");
+    if (launchCapAlert) {
+        if (!isLimitDisabled && launchesLeft <= 0) {
+            launchCapAlert.classList.remove("hidden");
+        } else {
+            launchCapAlert.classList.add("hidden");
+        }
+    }
+
+    // Flight Deck Configuration for Chapters 1 - 5
+    const chapterConfigs = {
+        1: { title: "Earth to Moon Flight", origin: "Earth", target: "Moon", km: 384400, targetColor: "text-secondary", stages: ["Earth", "Orbit", "Space", "Approach", "Moon"] },
+        2: { title: "Moon to Mars Expedition (Chapter 2)", origin: "Moon", target: "Mars", km: 54600000, targetColor: "text-[#ff5555]", stages: ["Moon", "Transit", "Asteroids", "Entry", "Mars"] },
+        3: { title: "Mars to Jupiter Voyage (Chapter 3)", origin: "Mars", target: "Jupiter", km: 588000000, targetColor: "text-[#ffb95f]", stages: ["Mars", "Belt", "Jovian Wave", "Europa", "Jupiter"] },
+        4: { title: "Jupiter to Saturn Flight (Chapter 4)", origin: "Jupiter", target: "Saturn", km: 650000000, targetColor: "text-[#34d399]", stages: ["Jupiter", "Deep Void", "Titan Field", "Ice Rings", "Saturn"] },
+        5: { title: "Saturn to Neptune Horizon (Chapter 5)", origin: "Saturn", target: "Neptune", km: 1500000000, targetColor: "text-[#38bdf8]", stages: ["Saturn", "Kuiper Edge", "Triton Drift", "Dark Void", "Neptune"] }
+    };
+
+    const currentChConfig = chapterConfigs[ch] || chapterConfigs[1];
 
     const flightTitle = document.getElementById("launch-flight-title");
-    if (flightTitle) {
-        flightTitle.textContent = isChapter2 ? "Moon to Mars Expedition (Chapter 2)" : "Earth to Moon Flight";
-    }
+    if (flightTitle) flightTitle.textContent = currentChConfig.title;
+
     const flightIcon = document.getElementById("launch-flight-icon");
-    if (flightIcon) {
-        flightIcon.textContent = isChapter2 ? "rocket_launch" : "explore";
-    }
+    if (flightIcon) flightIcon.textContent = ch > 1 ? "rocket_launch" : "explore";
 
-    const earthImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuBJQf15NHYnje8s0G3NFJLwjNI9WfSKi01b_1HEi6NRir4SHeqlPvsYfHAOXxQkmvn7yInzxpBto8FPrQhNlibjCjfZk4l39_WGFB_7kzOH3T5X9BYPS9pLq38CYUhxhkFecOFc9VqiImyYs7HCqF7zYaDROp5zCQcejWTk-9V44wHsEe0gXzyTzT5hGUSWUmK-CG-QfTC3NceyL0Nei0DW5FFbDpU8x39vXw6CM6A2NHABVLGgHNUI";
-    const moonImgUrl = "https://lh3.googleusercontent.com/aida-public/AB6AXuA9UHUGAupHEu2eooZ-e1qJ4BYrdXqWNXdlC7UXnKmKBfxwZ21wJzpj-q0vtsOzzdWY27EuNJ2sWg3i1Lmj-5tKdTvt3RJcOnfakA2uyaHp7Q8MRJeCYnxkI-Jv-UcKNBLAxQHFxZO-ZMF_gLvbW-bTDUq3FQDZNr0QpfbFhad2FShdIiN59fWOYEBTmggAo5UmBcwlZb5F6pZJU8IoFquF7r9X88i17ikgVbZj7vAcxV3Q0OJt8wpr";
-    const marsImgUrl = "assests/mars.jpg";
-
-    const originImg = document.getElementById("launch-origin-img");
     const originName = document.getElementById("launch-origin-name");
-    const targetImg = document.getElementById("launch-target-img");
     const targetName = document.getElementById("launch-target-name");
-
-    if (isChapter2) {
-        if (originImg) originImg.src = moonImgUrl;
-        if (originName) originName.textContent = "Moon";
-        if (targetImg) {
-            targetImg.src = marsImgUrl;
-            targetImg.style.filter = "";
-        }
-        if (targetName) {
-            targetName.textContent = "Mars";
-            targetName.className = "font-hud-label-sm text-[10px] text-[#ff5555] uppercase tracking-wider mt-1.5 font-bold";
-        }
-    } else {
-        if (originImg) originImg.src = earthImgUrl;
-        if (originName) originName.textContent = "Earth";
-        if (targetImg) {
-            targetImg.src = moonImgUrl;
-            targetImg.style.filter = "";
-        }
-        if (targetName) {
-            targetName.textContent = "Moon";
-            targetName.className = "font-hud-label-sm text-[10px] text-secondary uppercase tracking-wider mt-1.5 font-bold";
-        }
+    if (originName) originName.textContent = currentChConfig.origin;
+    if (targetName) {
+        targetName.textContent = currentChConfig.target;
+        targetName.className = `font-hud-label-sm text-[10px] ${currentChConfig.targetColor} uppercase tracking-wider mt-1.5 font-bold`;
     }
 
     const launchFuelBadge = document.getElementById("launch-fuel-badge");
@@ -508,19 +535,26 @@ function renderHUD() {
 
     const launchDistanceKm = document.getElementById("launch-distance-km");
     if (launchDistanceKm) {
-        if (isChapter2) {
-            const totalKm = 54600000;
-            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * totalKm));
-            launchDistanceKm.textContent = `${(kmLeft / 1000000).toFixed(1)}M KM to Mars`;
+        const totalKm = currentChConfig.km;
+        const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * totalKm));
+        if (kmLeft >= 1000000000) {
+            launchDistanceKm.textContent = `${(kmLeft / 1000000000).toFixed(2)}B KM to ${currentChConfig.target}`;
+        } else if (kmLeft >= 1000000) {
+            launchDistanceKm.textContent = `${(kmLeft / 1000000).toFixed(1)}M KM to ${currentChConfig.target}`;
         } else {
-            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 384400));
-            launchDistanceKm.textContent = `${kmLeft.toLocaleString()} KM to Moon`;
+            launchDistanceKm.textContent = `${kmLeft.toLocaleString()} KM to ${currentChConfig.target}`;
         }
     }
 
     const launchBtn = document.getElementById("launch-action-btn");
     if (launchBtn) {
-        if ((p.fuelReady || 0) <= 0) {
+        if (!isLimitDisabled && launchesLeft <= 0) {
+            launchBtn.classList.add("opacity-50");
+            launchBtn.innerHTML = `
+                <span class="material-symbols-outlined text-[20px]">lock_clock</span>
+                <span>DAILY LAUNCH LIMIT REACHED (0/5 LEFT)</span>
+            `;
+        } else if ((p.fuelReady || 0) <= 0) {
             launchBtn.classList.add("opacity-50");
             launchBtn.innerHTML = `
                 <span class="material-symbols-outlined text-[20px]">local_gas_station</span>
@@ -529,64 +563,114 @@ function renderHUD() {
         } else {
             launchBtn.classList.remove("opacity-50");
             const maxBurn = Math.min(p.fuelReady, (p.rocket.fuel || 1) * 25);
-            const targetDest = isChapter2 ? "Mars" : "Moon";
             launchBtn.innerHTML = `
                 <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
-                <span>LAUNCH ROCKET NOW (Burns ${maxBurn} Fuel to ${targetDest})</span>
+                <span>LAUNCH ROCKET NOW (Burns ${maxBurn} Fuel to ${currentChConfig.target})</span>
             `;
         }
     }
 
     const launchInfoText = document.getElementById("launch-info-text");
     if (launchInfoText) {
-        launchInfoText.textContent = isChapter2
-            ? "Pressing launch burns ready fuel, propels through deep space towards Mars, and scans for space relics!"
-            : "Pressing launch burns ready fuel, moves the rocket closer to the Moon, and scans for space discoveries!";
+        launchInfoText.textContent = `Pressing launch burns ready fuel, propels your active flagship closer to ${currentChConfig.target}, and scans for rare space discoveries!`;
     }
 
     const stageGuide = document.getElementById("launch-stage-guide");
     if (stageGuide) {
-        if (isChapter2) {
-            stageGuide.innerHTML = `
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-secondary font-bold">Moon</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">Transit</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">Asteroids</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">75%<br/><span class="text-[9px]">Entry</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">100%<br/><span class="text-[9px] text-[#ff5555] font-bold">Mars</span></div>
-            `;
-        } else {
-            stageGuide.innerHTML = `
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-primary-container font-bold">Earth</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">Orbit</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">Space</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">75%<br/><span class="text-[9px]">Approach</span></div>
-                <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">100%<br/><span class="text-[9px] text-secondary font-bold">Moon</span></div>
-            `;
-        }
+        stageGuide.innerHTML = `
+            <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">0%<br/><span class="text-[9px] text-primary-container font-bold">${currentChConfig.stages[0]}</span></div>
+            <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">25%<br/><span class="text-[9px]">${currentChConfig.stages[1]}</span></div>
+            <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">50%<br/><span class="text-[9px]">${currentChConfig.stages[2]}</span></div>
+            <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">75%<br/><span class="text-[9px]">${currentChConfig.stages[3]}</span></div>
+            <div class="p-1.5 rounded-lg bg-surface-container border border-white/5">100%<br/><span class="text-[9px] ${currentChConfig.targetColor} font-bold">${currentChConfig.stages[4]}</span></div>
+        `;
     }
 
+    // Toggle Chapter Embark Banners
     const ch2Banner = document.getElementById("chapter-2-banner");
-    if (ch2Banner) {
-        const moonUnlocked = (p.unlockedPlanets || []).includes("Moon");
-        if (moonUnlocked && !isChapter2) {
-            ch2Banner.classList.remove("hidden");
-        } else {
-            ch2Banner.classList.add("hidden");
-        }
-    }
+    const ch3Banner = document.getElementById("chapter-3-banner");
+    const ch4Banner = document.getElementById("chapter-4-banner");
+    const ch5Banner = document.getElementById("chapter-5-banner");
+    const chCompBanner = document.getElementById("chapter-completed-banner");
+
+    const moonUnlocked = (p.unlockedPlanets || []).includes("Moon");
+    const marsUnlocked = (p.unlockedPlanets || []).includes("Mars");
+    const jupiterUnlocked = (p.unlockedPlanets || []).includes("Jupiter");
+    const saturnUnlocked = (p.unlockedPlanets || []).includes("Saturn");
+    const neptuneUnlocked = (p.unlockedPlanets || []).includes("Neptune");
+
+    if (ch2Banner) ch2Banner.classList.toggle("hidden", !(moonUnlocked && ch === 1 && (p.journey.progress || 0) >= 100));
+    if (ch3Banner) ch3Banner.classList.toggle("hidden", !(marsUnlocked && ch === 2 && (p.journey.progress || 0) >= 100));
+    if (ch4Banner) ch4Banner.classList.toggle("hidden", !(jupiterUnlocked && ch === 3 && (p.journey.progress || 0) >= 100));
+    if (ch5Banner) ch5Banner.classList.toggle("hidden", !(saturnUnlocked && ch === 4 && (p.journey.progress || 0) >= 100));
+    if (chCompBanner) chCompBanner.classList.toggle("hidden", !neptuneUnlocked);
 
     updateSpaceshipPosition(p.journey.progress || 0);
 
     // ------------------------------------
-    // TAB 3: ROCKET UPGRADES
+    // TAB 3: FLEET HANGAR & ROCKET UPGRADES
     // ------------------------------------
     const hangarCredits = document.getElementById("hangar-credits-display");
     if (hangarCredits) hangarCredits.textContent = `${(p.credits || 0).toLocaleString()} Credits`;
 
-    renderUpgradeCard("engine", p.rocket.engine || 1);
-    renderUpgradeCard("fuel", p.rocket.fuel || 1);
-    renderUpgradeCard("shield", p.rocket.shield || 1);
-    renderUpgradeCard("scanner", p.rocket.scanner || 1);
+    // Render Fleet Hangar Dock
+    const fleetScroll = document.getElementById("hangar-fleet-scroll");
+    const fleetCount = document.getElementById("hangar-fleet-count");
+    if (fleetScroll && p.spaceships) {
+        const shipsList = Object.values(p.spaceships);
+        const unlockedCount = shipsList.filter(s => s.unlocked).length;
+        if (fleetCount) fleetCount.textContent = `${unlockedCount} of ${shipsList.length} Flagships`;
+
+        fleetScroll.innerHTML = shipsList.map(ship => {
+            const isActive = ship.id === p.activeShipId;
+            const isUnlocked = Boolean(ship.unlocked);
+
+            let borderClass = isActive
+                ? "border-primary-container shadow-[0_0_15px_var(--planet-primary)] bg-surface-container-high ring-1 ring-primary-container"
+                : (isUnlocked ? "border-white/10 hover:border-white/30 bg-surface-container-low" : "border-white/5 opacity-50 bg-surface-container-lowest");
+
+            let badgeHtml = isActive
+                ? `<span class="px-1.5 py-0.2 rounded-full bg-primary-container text-[#050816] text-[8px] font-bold uppercase">ACTIVE</span>`
+                : (isUnlocked ? `<span class="px-1.5 py-0.2 rounded-full bg-secondary/20 text-secondary text-[8px] font-bold uppercase">READY</span>` : `<span class="px-1.5 py-0.2 rounded-full bg-surface-container-highest text-on-surface-variant text-[8px] font-bold uppercase">LOCKED</span>`);
+
+            return `
+                <div onclick="selectActiveSpaceship('${ship.id}')" class="group min-w-[140px] p-2 rounded-xl border ${borderClass} flex flex-col gap-1.5 cursor-pointer transition-all shrink-0">
+                    <div class="relative w-full h-20 rounded-lg overflow-hidden border border-white/10 bg-black/40">
+                        <img src="${ship.image}" alt="${ship.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105 ${isUnlocked ? '' : 'grayscale opacity-50'}"/>
+                        <div class="absolute top-1 right-1">${badgeHtml}</div>
+                    </div>
+                    <div>
+                        <h4 class="font-headline-sm text-[12px] font-bold text-on-surface truncate">${ship.name}</h4>
+                        <span class="text-[9px] text-on-surface-variant">${isUnlocked ? ship.badge : 'Reach ' + ship.planet}</span>
+                    </div>
+                    <div class="flex items-center justify-between text-[9px] text-on-surface-variant pt-1 border-t border-white/5 font-hud-label-sm">
+                        <span>ENG L${ship.engine || 1}</span>
+                        <span>SHD L${ship.shield || 1}</span>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    // Active ship specs & upgrades
+    const activeShip = p.spaceships ? p.spaceships[p.activeShipId || "aegis"] : null;
+    if (activeShip) {
+        const activeName = document.getElementById("active-ship-name");
+        const activeBadge = document.getElementById("active-ship-badge");
+        const activeDesc = document.getElementById("active-ship-desc");
+        const activeAvatar = document.getElementById("active-ship-avatar-img");
+        const activeBlueprint = document.getElementById("active-ship-blueprint-img");
+        if (activeName) activeName.textContent = activeShip.name;
+        if (activeBadge) activeBadge.textContent = `${activeShip.planet} Origin • ${activeShip.badge}`;
+        if (activeDesc) activeDesc.textContent = activeShip.desc;
+        if (activeAvatar && activeShip.image) activeAvatar.src = activeShip.image;
+        if (activeBlueprint && activeShip.image) activeBlueprint.src = activeShip.image;
+
+        renderUpgradeCard("engine", activeShip.engine || 1);
+        renderUpgradeCard("fuel", activeShip.fuel || 1);
+        renderUpgradeCard("shield", activeShip.shield || 1);
+        renderUpgradeCard("scanner", activeShip.scanner || 1);
+    }
 
     // ------------------------------------
     // TAB 4: SPACE ATLAS & DISCOVERIES
@@ -599,8 +683,6 @@ function renderHUD() {
     if (atlasProgressBar) atlasProgressBar.style.width = `${Math.round((atlasUnlockedCount / 6) * 100)}%`;
 
     // Update Atlas Planet Cards (Moon & Mars status)
-    const moonUnlocked = (p.unlockedPlanets || []).includes("Moon");
-    const marsUnlocked = (p.unlockedPlanets || []).includes("Mars");
 
     const moonBadge = document.getElementById("atlas-moon-badge");
     const moonDesc = document.getElementById("atlas-moon-desc");
@@ -647,6 +729,114 @@ function renderHUD() {
         if (launchShooterBanner) launchShooterBanner.classList.add("hidden");
     }
 
+    // Mars Rover Rush Minigame Atlas Card & Launch Banner Status
+    const marsScoreBadge = document.getElementById("atlas-mars-score-badge");
+    const launchMarsScoreBadge = document.getElementById("launch-mars-score-badge");
+    const marsStatusDesc = document.getElementById("atlas-mars-status-desc");
+    const marsBtn = document.getElementById("atlas-mars-btn");
+    const launchMarsBanner = document.getElementById("launch-mars-rover-banner");
+
+    const marsBestScore = p.marsRoverHighScore || 0;
+    if (marsScoreBadge) marsScoreBadge.textContent = `Best: ${marsBestScore}`;
+    if (launchMarsScoreBadge) launchMarsScoreBadge.textContent = `Best: ${marsBestScore}`;
+
+    if (marsUnlocked) {
+        if (marsStatusDesc) marsStatusDesc.textContent = "Rover Rush Active • Tap to drive";
+        if (marsBtn) {
+            marsBtn.textContent = "Drive";
+            marsBtn.className = "px-3 py-1 rounded-full bg-red-500 text-white font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all";
+        }
+        if (launchMarsBanner) launchMarsBanner.classList.remove("hidden");
+    } else {
+        if (marsStatusDesc) marsStatusDesc.textContent = "Reach Mars to unlock canyon runner";
+        if (marsBtn) {
+            marsBtn.textContent = "Locked";
+            marsBtn.className = "px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all";
+        }
+        if (launchMarsBanner) launchMarsBanner.classList.add("hidden");
+    }
+
+    // Jovian Vortex Surfer Minigame Atlas Card & Launch Banner Status
+    const jupScoreBadge = document.getElementById("atlas-jupiter-score-badge");
+    const launchJupScoreBadge = document.getElementById("launch-jupiter-score-badge");
+    const jupStatusDesc = document.getElementById("atlas-jupiter-status-desc");
+    const jupMinigameBtn = document.getElementById("atlas-jupiter-btn");
+    const launchJupBanner = document.getElementById("launch-jupiter-surfer-banner");
+
+    const jupBestScore = p.jupiterSurferHighScore || 0;
+    if (jupScoreBadge) jupScoreBadge.textContent = `Best: ${jupBestScore}`;
+    if (launchJupScoreBadge) launchJupScoreBadge.textContent = `Best: ${jupBestScore}`;
+
+    if (jupiterUnlocked) {
+        if (jupStatusDesc) jupStatusDesc.textContent = "Storm Surfer Active • Tap to ride";
+        if (jupMinigameBtn) {
+            jupMinigameBtn.textContent = "Surf";
+            jupMinigameBtn.className = "px-3 py-1 rounded-full bg-[#ffb95f] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all";
+        }
+        if (launchJupBanner) launchJupBanner.classList.remove("hidden");
+    } else {
+        if (jupStatusDesc) jupStatusDesc.textContent = "Reach Jupiter to unlock storm surfer";
+        if (jupMinigameBtn) {
+            jupMinigameBtn.textContent = "Locked";
+            jupMinigameBtn.className = "px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all";
+        }
+        if (launchJupBanner) launchJupBanner.classList.add("hidden");
+    }
+
+    // Saturn Ringrunner Minigame Atlas Card & Launch Banner Status
+    const satScoreBadge = document.getElementById("atlas-saturn-score-badge");
+    const launchSatScoreBadge = document.getElementById("launch-saturn-score-badge");
+    const satStatusDesc = document.getElementById("atlas-saturn-status-desc");
+    const satMinigameBtn = document.getElementById("atlas-saturn-btn");
+    const launchSatBanner = document.getElementById("launch-saturn-runner-banner");
+
+    const satBestScore = p.saturnRingHighScore || 0;
+    if (satScoreBadge) satScoreBadge.textContent = `Best: ${satBestScore}`;
+    if (launchSatScoreBadge) launchSatScoreBadge.textContent = `Best: ${satBestScore}`;
+
+    if (saturnUnlocked) {
+        if (satStatusDesc) satStatusDesc.textContent = "Ring Slalom Active • Tap to fly";
+        if (satMinigameBtn) {
+            satMinigameBtn.textContent = "Fly";
+            satMinigameBtn.className = "px-3 py-1 rounded-full bg-[#34d399] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all";
+        }
+        if (launchSatBanner) launchSatBanner.classList.remove("hidden");
+    } else {
+        if (satStatusDesc) satStatusDesc.textContent = "Reach Saturn to unlock ring slalom";
+        if (satMinigameBtn) {
+            satMinigameBtn.textContent = "Locked";
+            satMinigameBtn.className = "px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all";
+        }
+        if (launchSatBanner) launchSatBanner.classList.add("hidden");
+    }
+
+    // Neptune Void Pulse Minigame Atlas Card & Launch Banner Status
+    const nepScoreBadge = document.getElementById("atlas-neptune-score-badge");
+    const launchNepScoreBadge = document.getElementById("launch-neptune-score-badge");
+    const nepStatusDesc = document.getElementById("atlas-neptune-status-desc");
+    const nepMinigameBtn = document.getElementById("atlas-neptune-btn");
+    const launchNepBanner = document.getElementById("launch-neptune-pulse-banner");
+
+    const nepBestScore = p.neptuneVoidHighScore || 0;
+    if (nepScoreBadge) nepScoreBadge.textContent = `Best: ${nepBestScore}`;
+    if (launchNepScoreBadge) launchNepScoreBadge.textContent = `Best: ${nepBestScore}`;
+
+    if (neptuneUnlocked) {
+        if (nepStatusDesc) nepStatusDesc.textContent = "Void Phase Active • Tap to phase";
+        if (nepMinigameBtn) {
+            nepMinigameBtn.textContent = "Phase";
+            nepMinigameBtn.className = "px-3 py-1 rounded-full bg-[#38bdf8] text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all";
+        }
+        if (launchNepBanner) launchNepBanner.classList.remove("hidden");
+    } else {
+        if (nepStatusDesc) nepStatusDesc.textContent = "Reach Neptune to unlock phase runner";
+        if (nepMinigameBtn) {
+            nepMinigameBtn.textContent = "Locked";
+            nepMinigameBtn.className = "px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all";
+        }
+        if (launchNepBanner) launchNepBanner.classList.add("hidden");
+    }
+
     const marsCard = document.getElementById("atlas-mars-card");
     const marsBadge = document.getElementById("atlas-mars-badge");
     const marsDesc = document.getElementById("atlas-mars-desc");
@@ -659,7 +849,7 @@ function renderHUD() {
             marsIcon.textContent = "check_circle";
             marsIcon.className = "material-symbols-outlined text-[#ff5555]";
             if (marsCard) marsCard.classList.remove("opacity-75");
-        } else if (isChapter2) {
+        } else if (ch === 2) {
             marsBadge.textContent = `Expedition (${p.journey.progress || 0}%)`;
             marsBadge.className = "px-2 py-0.2 rounded-full bg-primary-container/20 text-primary-container text-[10px] font-bold";
             const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 54.6));
@@ -674,6 +864,99 @@ function renderHUD() {
             marsIcon.textContent = "lock";
             marsIcon.className = "material-symbols-outlined text-on-surface-variant";
             if (marsCard) marsCard.classList.add("opacity-75");
+        }
+    }
+
+    // Jupiter Status
+    const jupCard = document.getElementById("atlas-jupiter-card");
+    const jupBadge = document.getElementById("atlas-jupiter-badge");
+    const jupDesc = document.getElementById("atlas-jupiter-desc");
+    const jupIcon = document.getElementById("atlas-jupiter-icon");
+    if (jupBadge && jupDesc && jupIcon) {
+        if (jupiterUnlocked) {
+            jupBadge.textContent = "Station Active";
+            jupBadge.className = "px-2 py-0.2 rounded-full bg-[#ffb95f]/20 text-[#ffb95f] text-[10px] font-bold";
+            jupDesc.textContent = "Great Jovian Harbor • Titan Dreadnought unlocked";
+            jupIcon.textContent = "check_circle";
+            jupIcon.className = "material-symbols-outlined text-[#ffb95f]";
+            if (jupCard) jupCard.classList.remove("opacity-75");
+        } else if (ch === 3) {
+            jupBadge.textContent = `Expedition (${p.journey.progress || 0}%)`;
+            jupBadge.className = "px-2 py-0.2 rounded-full bg-[#ffb95f]/20 text-[#ffb95f] text-[10px] font-bold";
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 588));
+            jupDesc.textContent = `In transit to Jupiter • ~${kmLeft}M KM left • Tap to launch`;
+            jupIcon.textContent = "rocket_launch";
+            jupIcon.className = "material-symbols-outlined text-[#ffb95f]";
+            if (jupCard) jupCard.classList.remove("opacity-75");
+        } else {
+            jupBadge.textContent = "Locked";
+            jupBadge.className = "px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold";
+            jupDesc.textContent = "Chapter III • Colonize Mars first to unlock";
+            jupIcon.textContent = "lock";
+            jupIcon.className = "material-symbols-outlined text-on-surface-variant";
+            if (jupCard) jupCard.classList.add("opacity-75");
+        }
+    }
+
+    // Saturn Status
+    const satCard = document.getElementById("atlas-saturn-card");
+    const satBadge = document.getElementById("atlas-saturn-badge");
+    const satDesc = document.getElementById("atlas-saturn-desc");
+    const satIcon = document.getElementById("atlas-saturn-icon");
+    if (satBadge && satDesc && satIcon) {
+        if (saturnUnlocked) {
+            satBadge.textContent = "Ring Colony";
+            satBadge.className = "px-2 py-0.2 rounded-full bg-[#34d399]/20 text-[#34d399] text-[10px] font-bold";
+            satDesc.textContent = "Cassini Ring Gate • Chronos Ringrunner unlocked";
+            satIcon.textContent = "check_circle";
+            satIcon.className = "material-symbols-outlined text-[#34d399]";
+            if (satCard) satCard.classList.remove("opacity-75");
+        } else if (ch === 4) {
+            satBadge.textContent = `Expedition (${p.journey.progress || 0}%)`;
+            satBadge.className = "px-2 py-0.2 rounded-full bg-[#34d399]/20 text-[#34d399] text-[10px] font-bold";
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 650));
+            satDesc.textContent = `In transit to Saturn • ~${kmLeft}M KM left • Tap to launch`;
+            satIcon.textContent = "rocket_launch";
+            satIcon.className = "material-symbols-outlined text-[#34d399]";
+            if (satCard) satCard.classList.remove("opacity-75");
+        } else {
+            satBadge.textContent = "Locked";
+            satBadge.className = "px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold";
+            satDesc.textContent = "Chapter IV • Reach Jupiter first to unlock";
+            satIcon.textContent = "lock";
+            satIcon.className = "material-symbols-outlined text-on-surface-variant";
+            if (satCard) satCard.classList.add("opacity-75");
+        }
+    }
+
+    // Neptune Status
+    const nepCard = document.getElementById("atlas-neptune-card");
+    const nepBadge = document.getElementById("atlas-neptune-badge");
+    const nepDesc = document.getElementById("atlas-neptune-desc");
+    const nepIcon = document.getElementById("atlas-neptune-icon");
+    if (nepBadge && nepDesc && nepIcon) {
+        if (neptuneUnlocked) {
+            nepBadge.textContent = "Deep Citadel";
+            nepBadge.className = "px-2 py-0.2 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-[10px] font-bold";
+            nepDesc.textContent = "Deep Void Citadel • Sovereign Flagship active";
+            nepIcon.textContent = "check_circle";
+            nepIcon.className = "material-symbols-outlined text-[#38bdf8]";
+            if (nepCard) nepCard.classList.remove("opacity-75");
+        } else if (ch === 5) {
+            nepBadge.textContent = `Expedition (${p.journey.progress || 0}%)`;
+            nepBadge.className = "px-2 py-0.2 rounded-full bg-[#38bdf8]/20 text-[#38bdf8] text-[10px] font-bold";
+            const kmLeft = Math.max(0, Math.round((1 - (p.journey.progress || 0) / 100) * 1500));
+            nepDesc.textContent = `Final transit to Neptune • ~${kmLeft}M KM left • Tap to launch`;
+            nepIcon.textContent = "rocket_launch";
+            nepIcon.className = "material-symbols-outlined text-[#38bdf8]";
+            if (nepCard) nepCard.classList.remove("opacity-75");
+        } else {
+            nepBadge.textContent = "Locked";
+            nepBadge.className = "px-2 py-0.2 rounded-full bg-surface-container-highest text-[10px] font-bold";
+            nepDesc.textContent = "Chapter V • Final Frontier of Solar System";
+            nepIcon.textContent = "lock";
+            nepIcon.className = "material-symbols-outlined text-on-surface-variant";
+            if (nepCard) nepCard.classList.add("opacity-75");
         }
     }
 
@@ -859,24 +1142,59 @@ function setCustomSaveVal(val) {
     if (input) input.value = val;
 }
 
-function showArrivalModal(planetName, stationName) {
+function showArrivalModal(planetName, stationName, shipName) {
     const modal = document.getElementById("arrivalCelebrationModal");
     if (!modal) return;
 
     const title = document.getElementById("arrivalModalTitle");
     const msg = document.getElementById("arrivalModalMsg");
 
+    if (title) title.textContent = `${planetName.toUpperCase()} COLONIZED!`;
+
+    const shipText = shipName ? ` You have also been awarded the new flagship: ${shipName}—head to the Hangar in the Rocket tab to view and upgrade your new vessel!` : "";
+
     if (planetName === "Mars") {
-        if (title) title.textContent = "MARS COLONY REACHED!";
-        if (msg) msg.textContent = "Incredible milestone, Commander! You completed Chapter 2 and safely touched down at Olympus Mons Outpost! Mars is unlocked in your Space Atlas, crimson theme is active, and +300 bonus credits are awarded!";
+        if (msg) msg.textContent = `Incredible milestone, Commander! You completed Chapter 2 and safely touched down at ${stationName || 'Olympus Mons Outpost'}! Mars is unlocked, crimson theme active, +300 bonus credits awarded!${shipText}`;
+    } else if (planetName === "Jupiter") {
+        if (msg) msg.textContent = `Astonishing achievement! You crossed the Asteroid Belt and arrived at Jupiter's ${stationName || 'Great Jovian Harbor'}! Jupiter theme active, +500 bonus credits awarded!${shipText}`;
+    } else if (planetName === "Saturn") {
+        if (msg) msg.textContent = `Majestic victory! You navigated the ice rings of Saturn and established the ${stationName || 'Cassini Ring Gate'}! Saturn theme active, +750 bonus credits awarded!${shipText}`;
+    } else if (planetName === "Neptune") {
+        if (msg) msg.textContent = `Solar System Conquered! You reached the edge of deep space at Neptune's ${stationName || 'Deep Void Citadel'}! Deep Azure theme active, +1,000 bonus credits awarded!${shipText}`;
     } else {
-        if (title) title.textContent = `${planetName.toUpperCase()} REACHED!`;
-        if (msg) msg.textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! ${stationName || 'Luna Gate Base'} is unlocked, Moon theme active, +150 bonus credits added, and the Luna Defender Space Shooter simulator is now ready to play!`;
+        if (msg) msg.textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! ${stationName || 'Luna Gate Base'} is unlocked, Moon theme active, +150 bonus credits added, and the Luna Defender Space Shooter simulator is ready!${shipText}`;
     }
 
     triggerParticleBurst(window.innerWidth / 2, window.innerHeight / 2);
     modal.classList.remove("hidden");
     modal.classList.add("flex");
+}
+
+function closeArrivalModal() {
+    if (typeof playSound === "function") playSound("click");
+    const modal = document.getElementById("arrivalCelebrationModal");
+    if (modal) {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+    }
+    if (typeof renderHUD === "function") {
+        renderHUD();
+    }
+}
+
+function handleAtlasPlanetClick(planetKey) {
+    playSound("click");
+    if (!window.player) return;
+    const p = window.player;
+    const key = planetKey.toLowerCase();
+    const unlocked = (p.unlockedPlanets || []).map(x => x.toLowerCase());
+
+    if (unlocked.includes(key)) {
+        applyPlanetTheme(key);
+        showToast(`View set to ${planetKey} Theme`, "info");
+    } else {
+        showToast(`Locked! Travel further in your journey to unlock ${planetKey}.`, "error");
+    }
 }
 
 function handleAtlasMarsClick() {
@@ -887,7 +1205,7 @@ function handleAtlasMarsClick() {
         applyPlanetTheme("mars");
         showToast("View set to Mars (Crimson Theme)", "info");
     } else if (p.journey && p.journey.chapter === 2) {
-        showToast("Chapter 2 Expedition currently in progress to Mars!", "info");
+        showToast("Chapter 2 Expedition in progress to Mars!", "info");
         switchTab("launch");
     } else if (p.unlockedPlanets && p.unlockedPlanets.includes("Moon")) {
         startMarsExpedition();
@@ -897,77 +1215,227 @@ function handleAtlasMarsClick() {
     }
 }
 
-function closeArrivalModal() {
+function handleAtlasJupiterClick() {
     playSound("click");
-    const modal = document.getElementById("arrivalCelebrationModal");
-    if (modal) {
-        modal.classList.add("hidden");
-        modal.classList.remove("flex");
+    if (!window.player) return;
+    const p = window.player;
+    if (p.unlockedPlanets && p.unlockedPlanets.includes("Jupiter")) {
+        applyPlanetTheme("jupiter");
+        showToast("View set to Jupiter (Golden Amber Theme)", "info");
+    } else if (p.journey && p.journey.chapter === 3) {
+        showToast("Chapter 3 Expedition in progress to Jupiter!", "info");
+        switchTab("launch");
+    } else if (p.unlockedPlanets && p.unlockedPlanets.includes("Mars")) {
+        startJupiterExpedition();
+        switchTab("launch");
+    } else {
+        showToast("Locked! Colonize Mars first to unlock Chapter 3: Jupiter Voyage.", "error");
     }
 }
 
-function toggleSound(checkbox) {
+function handleAtlasSaturnClick() {
+    playSound("click");
     if (!window.player) return;
-    player.soundEnabled = checkbox.checked;
-    savePlayer(player);
-    if (player.soundEnabled) playSound("click");
+    const p = window.player;
+    if (p.unlockedPlanets && p.unlockedPlanets.includes("Saturn")) {
+        applyPlanetTheme("saturn");
+        showToast("View set to Saturn (Emerald Ring Theme)", "info");
+    } else if (p.journey && p.journey.chapter === 4) {
+        showToast("Chapter 4 Expedition in progress to Saturn!", "info");
+        switchTab("launch");
+    } else if (p.unlockedPlanets && p.unlockedPlanets.includes("Jupiter")) {
+        startSaturnExpedition();
+        switchTab("launch");
+    } else {
+        showToast("Locked! Reach Jupiter first to unlock Chapter 4: Saturn Expedition.", "error");
+    }
 }
 
-function devResetDailyLimits() {
+function handleAtlasNeptuneClick() {
+    playSound("click");
     if (!window.player) return;
-    const today = new Date().toISOString().split("T")[0];
-    window.player.dailyLimits = {
-        date: today,
-        savedToday: 0,
-        depositsCountToday: 0
-    };
-    if (window.player.missions) {
-        window.player.missions.dailySave = false;
-        window.player.missions.saveTwice = false;
-        window.player.missions.depositsToday = 0;
-    }
-    savePlayer(window.player);
-    if (typeof playSound === "function") playSound("upgrade");
-    if (typeof triggerParticleBurst === "function") triggerParticleBurst();
-    if (typeof renderHUD === "function") renderHUD();
-    if (typeof showToast === "function") {
-        showToast("⚡ Dev: Daily saving limits reset! (₹0 / ₹400, 0 / 10 saves used)", "success");
+    const p = window.player;
+    if (p.unlockedPlanets && p.unlockedPlanets.includes("Neptune")) {
+        applyPlanetTheme("neptune");
+        showToast("View set to Neptune (Deep Void Azure Theme)", "info");
+    } else if (p.journey && p.journey.chapter === 5) {
+        showToast("Chapter 5 Final Frontier in progress to Neptune!", "info");
+        switchTab("launch");
+    } else if (p.unlockedPlanets && p.unlockedPlanets.includes("Saturn")) {
+        startNeptuneExpedition();
+        switchTab("launch");
+    } else {
+        showToast("Locked! Reach Saturn first to unlock Chapter 5: Neptune Expedition.", "error");
     }
 }
 
 function devToggleMoonUnlock() {
     if (!window.player) return;
     const p = window.player;
-    p.unlockedPlanets = p.unlockedPlanets || ["Earth"];
-    const moonIdx = p.unlockedPlanets.indexOf("Moon");
-
-    if (moonIdx >= 0) {
-        // Lock Moon
-        p.unlockedPlanets.splice(moonIdx, 1);
-        p.journey.chapter = 1;
-        p.journey.currentPlanet = "Earth";
-        p.journey.targetPlanet = "Moon";
-        p.journey.progress = 50;
-        applyPlanetTheme("earth");
-        savePlayer(p);
-        if (typeof showToast === "function") {
-            showToast("🌍 Dev: Moon locked! Luna Defender is now gated.", "info");
-        }
+    if (!p.unlockedPlanets) p.unlockedPlanets = ["Earth"];
+    const idx = p.unlockedPlanets.indexOf("Moon");
+    if (idx >= 0) {
+        p.unlockedPlanets.splice(idx, 1);
+        showToast("Dev: Moon LOCKED.", "info");
     } else {
-        // Unlock Moon
         p.unlockedPlanets.push("Moon");
-        p.journey.currentPlanet = "Moon";
-        p.journey.progress = 100;
-        applyPlanetTheme("moon");
-        savePlayer(p);
-        if (typeof showToast === "function") {
-            showToast("🌙 Dev: Moon unlocked! Luna Defender minigame is now accessible.", "success");
-        }
+        if (p.spaceships && p.spaceships.artemis) p.spaceships.artemis.unlocked = true;
+        showToast("Dev: Moon UNLOCKED! Luna Defender arcade ready.", "success");
+    }
+    savePlayer(p);
+    renderHUD();
+}
+
+function devToggleMarsUnlock() {
+    if (!window.player) return;
+    const p = window.player;
+    if (!p.unlockedPlanets) p.unlockedPlanets = ["Earth"];
+    const idx = p.unlockedPlanets.indexOf("Mars");
+    if (idx >= 0) {
+        p.unlockedPlanets.splice(idx, 1);
+        showToast("Dev: Mars LOCKED.", "info");
+    } else {
+        p.unlockedPlanets.push("Mars");
+        if (p.spaceships && p.spaceships.ares) p.spaceships.ares.unlocked = true;
+        showToast("Dev: Mars UNLOCKED! Mars Rover Rush ready.", "success");
+    }
+    savePlayer(p);
+    renderHUD();
+}
+
+function devToggleJupiterUnlock() {
+    if (!window.player) return;
+    const p = window.player;
+    if (!p.unlockedPlanets) p.unlockedPlanets = ["Earth"];
+    const idx = p.unlockedPlanets.indexOf("Jupiter");
+    if (idx >= 0) {
+        p.unlockedPlanets.splice(idx, 1);
+        showToast("Dev: Jupiter LOCKED.", "info");
+    } else {
+        p.unlockedPlanets.push("Jupiter");
+        if (p.spaceships && p.spaceships.jovian) p.spaceships.jovian.unlocked = true;
+        showToast("Dev: Jupiter UNLOCKED! Jovian Vortex Surfer ready.", "success");
+    }
+    savePlayer(p);
+    renderHUD();
+}
+
+function devToggleSaturnUnlock() {
+    if (!window.player) return;
+    const p = window.player;
+    if (!p.unlockedPlanets) p.unlockedPlanets = ["Earth"];
+    const idx = p.unlockedPlanets.indexOf("Saturn");
+    if (idx >= 0) {
+        p.unlockedPlanets.splice(idx, 1);
+        showToast("Dev: Saturn LOCKED.", "info");
+    } else {
+        p.unlockedPlanets.push("Saturn");
+        if (p.spaceships && p.spaceships.chronos) p.spaceships.chronos.unlocked = true;
+        showToast("Dev: Saturn UNLOCKED! Saturn Ringrunner ready.", "success");
+    }
+    savePlayer(p);
+    renderHUD();
+}
+
+function devToggleNeptuneUnlock() {
+    if (!window.player) return;
+    const p = window.player;
+    if (!p.unlockedPlanets) p.unlockedPlanets = ["Earth"];
+    const idx = p.unlockedPlanets.indexOf("Neptune");
+    if (idx >= 0) {
+        p.unlockedPlanets.splice(idx, 1);
+        showToast("Dev: Neptune LOCKED.", "info");
+    } else {
+        p.unlockedPlanets.push("Neptune");
+        if (p.spaceships && p.spaceships.sovereign) p.spaceships.sovereign.unlocked = true;
+        showToast("Dev: Neptune UNLOCKED! Neptune Void Pulse ready.", "success");
+    }
+    savePlayer(p);
+    renderHUD();
+}
+
+function selectActiveSpaceship(shipId) {
+    if (!window.player || !window.player.spaceships || !window.player.spaceships[shipId]) return;
+    const targetShip = window.player.spaceships[shipId];
+    if (!targetShip.unlocked) {
+        showToast(`Reach ${targetShip.planet} to unlock the ${targetShip.name}!`, "warning");
+        if (typeof playSound === "function") playSound("buzzer");
+        return;
+    }
+    window.player.activeShipId = shipId;
+    if (typeof syncPlayerRocketFromActiveShip === "function") {
+        syncPlayerRocketFromActiveShip(window.player);
+    }
+    if (typeof savePlayer === "function") {
+        savePlayer(window.player);
+    }
+    renderHUD();
+    showToast(`Active flagship switched to ${targetShip.name}!`, "success");
+    if (typeof playSound === "function") playSound("upgrade");
+}
+
+function devToggleLaunchLimit() {
+    if (!window.player) return;
+    window.player.dailyLaunchLimitDisabled = !window.player.dailyLaunchLimitDisabled;
+    savePlayer(window.player);
+
+    const toggleText = document.getElementById("dev-launch-limit-toggle-text");
+    if (toggleText) {
+        toggleText.textContent = window.player.dailyLaunchLimitDisabled
+            ? "Dev: Enable 5-Launch Limit (Currently Disabled)"
+            : "Dev: Disable 5-Launch Limit (Currently Enabled)";
     }
 
     if (typeof playSound === "function") playSound("upgrade");
     if (typeof triggerParticleBurst === "function") triggerParticleBurst();
     if (typeof renderHUD === "function") renderHUD();
+    if (typeof showToast === "function") {
+        showToast(window.player.dailyLaunchLimitDisabled
+            ? "⚡ Dev: 5-Launch daily limit DISABLED! Unlimited launches active."
+            : "⚡ Dev: 5-Launch daily limit ENABLED!", "info");
+    }
+}
+
+function devResetLaunchCount() {
+    if (!window.player) return;
+    if (!window.player.dailyLimits) {
+        window.player.dailyLimits = {
+            date: new Date().toISOString().split("T")[0],
+            savedToday: 0,
+            depositsCountToday: 0,
+            launchesCountToday: 0
+        };
+    }
+    window.player.dailyLimits.launchesCountToday = 0;
+    savePlayer(window.player);
+
+    if (typeof playSound === "function") playSound("upgrade");
+    if (typeof renderHUD === "function") renderHUD();
+    if (typeof showToast === "function") {
+        showToast("⚡ Dev: Daily launch count reset to 0/5!", "success");
+    }
+}
+
+function devUnlockAllPlanetsAndShips() {
+    if (!window.player) return;
+    const p = window.player;
+    p.unlockedPlanets = ["Earth", "Moon", "Mars", "Jupiter", "Saturn", "Neptune"];
+    if (!p.spaceships) p.spaceships = structuredClone(DEFAULT_SPACESHIPS);
+    Object.values(p.spaceships).forEach(ship => { ship.unlocked = true; });
+    p.credits += 2000;
+    p.fuelReady += 200;
+    p.activeShipId = "sovereign";
+    if (typeof syncPlayerRocketFromActiveShip === "function") {
+        syncPlayerRocketFromActiveShip(p);
+    }
+    savePlayer(p);
+
+    if (typeof playSound === "function") playSound("upgrade");
+    if (typeof triggerParticleBurst === "function") triggerParticleBurst();
+    if (typeof renderHUD === "function") renderHUD();
+    if (typeof showToast === "function") {
+        showToast("🚀 Dev: All 6 Planets & Spaceships Unlocked! Sovereign Flagship Active.", "success");
+    }
 }
 
 function confirmResetPlayer() {
@@ -976,6 +1444,42 @@ function confirmResetPlayer() {
         showToast("Game data reset. Ready for a new journey!", "info");
     }
 }
+
+function devResetDailyLimits() {
+    if (!window.player) return;
+    window.player.dailyLimits = {
+        date: new Date().toISOString().split("T")[0],
+        savedToday: 0,
+        depositsCountToday: 0,
+        launchesCountToday: 0
+    };
+    if (window.player.missions) {
+        window.player.missions.dailySave = false;
+        window.player.missions.saveTwice = false;
+        window.player.missions.depositsToday = 0;
+    }
+    if (typeof savePlayer === "function") savePlayer(window.player);
+    if (typeof playSound === "function") playSound("upgrade");
+    if (typeof renderHUD === "function") renderHUD();
+    if (typeof showToast === "function") {
+        showToast("⚡ Dev: Daily limits reset (₹0 saved, 10 saves left, 5 launches ready)!", "success");
+    }
+}
+
+// Explicit window bindings
+window.closeArrivalModal = closeArrivalModal;
+window.showArrivalModal = showArrivalModal;
+window.selectActiveSpaceship = selectActiveSpaceship;
+window.devResetDailyLimits = devResetDailyLimits;
+window.devToggleMoonUnlock = devToggleMoonUnlock;
+window.devToggleMarsUnlock = devToggleMarsUnlock;
+window.devToggleJupiterUnlock = devToggleJupiterUnlock;
+window.devToggleSaturnUnlock = devToggleSaturnUnlock;
+window.devToggleNeptuneUnlock = devToggleNeptuneUnlock;
+window.devToggleLaunchLimit = devToggleLaunchLimit;
+window.devResetLaunchCount = devResetLaunchCount;
+window.devUnlockAllPlanetsAndShips = devUnlockAllPlanetsAndShips;
+window.confirmResetPlayer = confirmResetPlayer;
 
 // -------------------------------------------------------------
 // 9. Initialization
