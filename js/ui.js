@@ -620,6 +620,33 @@ function renderHUD() {
         }
     }
 
+    // Luna Defender Minigame Atlas Card & Launch Banner Status
+    const lunaScoreBadge = document.getElementById("atlas-luna-score-badge");
+    const launchLunaScoreBadge = document.getElementById("launch-luna-score-badge");
+    const lunaStatusDesc = document.getElementById("atlas-luna-status-desc");
+    const lunaBtn = document.getElementById("atlas-luna-btn");
+    const launchShooterBanner = document.getElementById("launch-luna-shooter-banner");
+
+    const bestScore = p.lunaShooterHighScore || 0;
+    if (lunaScoreBadge) lunaScoreBadge.textContent = `Best: ${bestScore}`;
+    if (launchLunaScoreBadge) launchLunaScoreBadge.textContent = `Best: ${bestScore}`;
+
+    if (moonUnlocked) {
+        if (lunaStatusDesc) lunaStatusDesc.textContent = "Luna Defense Active • Tap to play";
+        if (lunaBtn) {
+            lunaBtn.textContent = "Play";
+            lunaBtn.className = "px-3 py-1 rounded-full bg-secondary text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-md hover:scale-105 active:scale-95 transition-all";
+        }
+        if (launchShooterBanner) launchShooterBanner.classList.remove("hidden");
+    } else {
+        if (lunaStatusDesc) lunaStatusDesc.textContent = "Reach Moon to unlock arcade";
+        if (lunaBtn) {
+            lunaBtn.textContent = "Locked";
+            lunaBtn.className = "px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all";
+        }
+        if (launchShooterBanner) launchShooterBanner.classList.add("hidden");
+    }
+
     const marsCard = document.getElementById("atlas-mars-card");
     const marsBadge = document.getElementById("atlas-mars-badge");
     const marsDesc = document.getElementById("atlas-mars-desc");
@@ -844,7 +871,7 @@ function showArrivalModal(planetName, stationName) {
         if (msg) msg.textContent = "Incredible milestone, Commander! You completed Chapter 2 and safely touched down at Olympus Mons Outpost! Mars is unlocked in your Space Atlas, crimson theme is active, and +300 bonus credits are awarded!";
     } else {
         if (title) title.textContent = `${planetName.toUpperCase()} REACHED!`;
-        if (msg) msg.textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! ${stationName || 'Luna Gate Base'} is unlocked, Moon theme active, and +150 bonus credits are added to your wallet. You are now ready for Chapter 2: Mars Expedition!`;
+        if (msg) msg.textContent = `Congratulations! You saved money and traveled all the way from Earth to the Moon! ${stationName || 'Luna Gate Base'} is unlocked, Moon theme active, +150 bonus credits added, and the Luna Defender Space Shooter simulator is now ready to play!`;
     }
 
     triggerParticleBurst(window.innerWidth / 2, window.innerHeight / 2);
@@ -906,6 +933,41 @@ function devResetDailyLimits() {
     if (typeof showToast === "function") {
         showToast("⚡ Dev: Daily saving limits reset! (₹0 / ₹400, 0 / 10 saves used)", "success");
     }
+}
+
+function devToggleMoonUnlock() {
+    if (!window.player) return;
+    const p = window.player;
+    p.unlockedPlanets = p.unlockedPlanets || ["Earth"];
+    const moonIdx = p.unlockedPlanets.indexOf("Moon");
+
+    if (moonIdx >= 0) {
+        // Lock Moon
+        p.unlockedPlanets.splice(moonIdx, 1);
+        p.journey.chapter = 1;
+        p.journey.currentPlanet = "Earth";
+        p.journey.targetPlanet = "Moon";
+        p.journey.progress = 50;
+        applyPlanetTheme("earth");
+        savePlayer(p);
+        if (typeof showToast === "function") {
+            showToast("🌍 Dev: Moon locked! Luna Defender is now gated.", "info");
+        }
+    } else {
+        // Unlock Moon
+        p.unlockedPlanets.push("Moon");
+        p.journey.currentPlanet = "Moon";
+        p.journey.progress = 100;
+        applyPlanetTheme("moon");
+        savePlayer(p);
+        if (typeof showToast === "function") {
+            showToast("🌙 Dev: Moon unlocked! Luna Defender minigame is now accessible.", "success");
+        }
+    }
+
+    if (typeof playSound === "function") playSound("upgrade");
+    if (typeof triggerParticleBurst === "function") triggerParticleBurst();
+    if (typeof renderHUD === "function") renderHUD();
 }
 
 function confirmResetPlayer() {

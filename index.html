@@ -417,6 +417,25 @@
         </button>
       </div>
 
+      <!-- Luna Defender Minigame Quick Terminal (Unlocks on reaching Moon) -->
+      <div id="launch-luna-shooter-banner" class="hidden p-3 rounded-2xl bg-surface-container-high/90 border border-secondary/40 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-secondary/20 flex items-center justify-center text-secondary border border-secondary/30 shadow-[0_0_12px_rgba(208,188,255,0.35)]">
+            <span class="material-symbols-outlined text-[22px]">sports_esports</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-headline-sm text-[13px] font-bold text-on-surface">Luna Defender</span>
+              <span id="launch-luna-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary/20 text-tertiary text-[9px] font-bold">Best: 0</span>
+            </div>
+            <span class="text-[11px] text-on-surface-variant">Moon Base Combat Simulator</span>
+          </div>
+        </div>
+        <button onclick="openLunaShooter()" class="px-3 py-1.5 rounded-xl bg-secondary text-[#050816] font-headline-sm text-[11px] font-bold uppercase tracking-wider shrink-0 shadow-md active:scale-95 transition-all">
+          Play Arcade →
+        </button>
+      </div>
+
       <!-- Big Manual Launch Rocket Action Button -->
       <div class="flex flex-col gap-2">
         <button id="launch-action-btn" onclick="launchRocket()" class="w-full py-4 rounded-2xl planet-btn-primary font-headline-sm text-[16px] font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_24px_var(--planet-glow)] active:scale-95 transition-all">
@@ -623,20 +642,41 @@
         </div>
 
         <!-- Moon -->
-        <div id="atlas-moon-card" onclick="applyPlanetTheme('moon'); showToast('View set to Moon (Lavender Theme)', 'info')" class="p-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest border border-secondary/40 flex items-center justify-between cursor-pointer transition-all shadow-[0_0_12px_rgba(208,188,255,0.2)]">
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-full overflow-hidden border border-secondary shadow-[0_0_12px_rgba(208,188,255,0.4)]">
-              <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5" alt="Moon"/>
-            </div>
-            <div class="flex flex-col">
-              <div class="flex items-center gap-1.5">
-                <span class="font-headline-sm text-[14px] font-bold text-on-surface">2. Moon</span>
-                <span id="atlas-moon-badge" class="px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold">Target</span>
+        <div id="atlas-moon-card" onclick="applyPlanetTheme('moon'); showToast('View set to Moon (Lavender Theme)', 'info')" class="p-3.5 rounded-2xl bg-surface-container-high hover:bg-surface-container-highest border border-secondary/40 flex flex-col gap-2.5 cursor-pointer transition-all shadow-[0_0_12px_rgba(208,188,255,0.2)]">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full overflow-hidden border border-secondary shadow-[0_0_12px_rgba(208,188,255,0.4)]">
+                <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhtNtGZiRfoobGffdoW5-aMz_xoa6IFisxqwCXfGutRKYnxZV1Jj-v3-B3AnnJA6Re0fVQVSAmaSh6cX9HDhK8gZpmiCLfCisiOh-Rdl6DM2WXc6c5ozhQke0S9beoeXGvcKMzan1Z1jboCXU_TO2mHYtZpxJLcwFfT-ttMwkt8SIYrf6pOYf1HGQuKQ6uJndGcQE71JOP26pShnomIRLxltbzCMLFllH6-sW43eaLRqC_Wj0jFI5" alt="Moon"/>
               </div>
-              <span id="atlas-moon-desc" class="text-[11px] text-on-surface-variant">Reach 100% on Launch tab to unlock!</span>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[14px] font-bold text-on-surface">2. Moon</span>
+                  <span id="atlas-moon-badge" class="px-2 py-0.2 rounded-full bg-secondary/20 text-secondary text-[10px] font-bold">Target</span>
+                </div>
+                <span id="atlas-moon-desc" class="text-[11px] text-on-surface-variant">Reach 100% on Launch tab to unlock!</span>
+              </div>
             </div>
+            <span id="atlas-moon-icon" class="material-symbols-outlined text-secondary">explore</span>
           </div>
-          <span id="atlas-moon-icon" class="material-symbols-outlined text-secondary">explore</span>
+
+          <!-- Luna Defender Space Shooter Minigame Module -->
+          <div id="atlas-luna-minigame-card" class="p-2.5 rounded-xl bg-surface-container-lowest/80 border border-secondary/25 flex items-center justify-between shadow-inner">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg bg-secondary/20 flex items-center justify-center text-secondary shadow-[0_0_8px_rgba(208,188,255,0.3)]">
+                <span class="material-symbols-outlined text-[18px]">sports_esports</span>
+              </div>
+              <div class="flex flex-col">
+                <div class="flex items-center gap-1.5">
+                  <span class="font-headline-sm text-[12px] font-bold text-on-surface">Luna Defender</span>
+                  <span id="atlas-luna-score-badge" class="px-1.5 py-0.2 rounded-full bg-tertiary-container/20 text-tertiary-fixed text-[9px] font-bold">Best: 0</span>
+                </div>
+                <span id="atlas-luna-status-desc" class="text-[10px] text-on-surface-variant">Reach Moon to unlock arcade</span>
+              </div>
+            </div>
+            <button id="atlas-luna-btn" onclick="event.stopPropagation(); openLunaShooter();" class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-headline-sm text-[11px] font-bold uppercase tracking-wider shadow-sm transition-all">
+              Locked
+            </button>
+          </div>
         </div>
 
         <!-- Mars -->
@@ -726,6 +766,10 @@
           <button onclick="devResetDailyLimits()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary-fixed border border-primary-container/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
             <span class="material-symbols-outlined text-[16px] text-primary-container">restart_alt</span>
             <span>Reset Today's Limits (₹0 / 10 Saves)</span>
+          </button>
+          <button onclick="devToggleMoonUnlock()" class="w-full py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-secondary border border-secondary/30 font-headline-sm text-[12px] font-bold uppercase transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-[0.98]">
+            <span class="material-symbols-outlined text-[16px] text-secondary">sports_esports</span>
+            <span id="dev-moon-toggle-text">Dev: Toggle Moon Unlock (Test Minigame)</span>
           </button>
         </div>
 
@@ -860,6 +904,125 @@
     </div>
   </div>
 
+  <!-- Luna Defender Space Shooter Arcade Modal -->
+  <div id="lunaShooterModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-xl p-2 sm:p-4 overflow-y-auto">
+    <div class="relative w-full max-w-sm rounded-3xl bg-surface-container-lowest border border-secondary/40 p-3 sm:p-4 flex flex-col items-center gap-2.5 shadow-[0_0_50px_rgba(208,188,255,0.3)] my-auto">
+      
+      <!-- Minigame Top Bar -->
+      <div class="w-full flex items-center justify-between px-1">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-secondary/20 border border-secondary/40 flex items-center justify-center text-secondary shadow-[0_0_10px_rgba(208,188,255,0.4)]">
+            <span class="material-symbols-outlined text-[18px]">sports_esports</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1.5">
+              <span class="font-display-hero text-[13px] font-bold uppercase tracking-wider text-secondary">Luna Defender</span>
+              <span id="lunaShooterLevel" class="px-1.5 py-0.2 rounded-full bg-surface-container-high border border-white/10 font-hud-label-sm text-[9px] text-primary-container font-bold">WAVE 1</span>
+            </div>
+            <span class="text-[9px] text-on-surface-variant uppercase tracking-widest font-mono">Moon Orbit Defense</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5">
+          <button id="lunaShooterPauseBtn" onclick="togglePauseShooter()" title="Pause Game" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">pause</span>
+          </button>
+          <button onclick="closeLunaShooter()" title="Exit Simulator" class="w-8 h-8 rounded-full bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[18px]">close</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Score & Hull Shields Bar -->
+      <div class="w-full grid grid-cols-3 gap-2 px-2 py-1.5 rounded-xl bg-surface-container-low/90 border border-white/5 font-hud-label-sm text-center">
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Score</span>
+          <span id="lunaShooterScore" class="font-metric-readout text-[15px] font-bold text-primary-container">0</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">High Score</span>
+          <span id="lunaShooterHigh" class="font-metric-readout text-[15px] font-bold text-tertiary-fixed">0</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <span class="text-[9px] uppercase tracking-wider text-on-surface-variant">Shields</span>
+          <div id="lunaShooterShields" class="flex items-center gap-0.5 mt-0.5 text-primary-container">
+            <!-- Shield icons -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Power-up Badge -->
+      <div id="lunaShooterPowerUpBadge" class="hidden px-2.5 py-0.5 rounded-full bg-secondary/20 border border-secondary text-secondary font-hud-label-sm text-[10px] font-bold animate-pulse">
+        ⚡ TWIN BLASTERS ACTIVE
+      </div>
+
+      <!-- Interactive Canvas Arena -->
+      <div class="relative w-full aspect-[400/560] max-h-[48vh] rounded-2xl overflow-hidden shadow-2xl flex items-center justify-center">
+        <canvas id="lunaShooterCanvas" width="400" height="560" class="w-full h-full object-contain"></canvas>
+        <div class="arcade-crt-overlay absolute inset-0"></div>
+
+        <!-- Game Over Modal Overlay -->
+        <div id="lunaShooterGameOver" class="absolute inset-0 z-20 hidden flex-col items-center justify-center bg-black/85 backdrop-blur-md p-4 text-center">
+          <div class="w-14 h-14 rounded-full bg-red-500/20 border border-red-500/40 flex items-center justify-center text-[#ff5555] mb-2 shadow-[0_0_20px_rgba(255,85,85,0.5)]">
+            <span class="material-symbols-outlined text-[32px]">warning</span>
+          </div>
+          <span class="font-display-hero text-[18px] font-bold uppercase tracking-wider text-error">HULL BREACHED</span>
+          <span id="lunaShooterRecordBadge" class="hidden my-1 px-2.5 py-0.5 rounded-full bg-tertiary-container/30 border border-tertiary text-tertiary-fixed font-hud-label-sm text-[10px] font-bold">
+            🏆 NEW ALL-TIME HIGH SCORE!
+          </span>
+          <p class="text-[12px] text-on-surface-variant mt-0.5">Your orbital interceptor was destroyed.</p>
+
+          <div class="grid grid-cols-2 gap-3 w-full max-w-[240px] my-2.5 p-2.5 rounded-xl bg-surface-container-lowest/90 border border-white/5 font-hud-label-sm text-center">
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">Final Score</span>
+              <span id="lunaShooterFinalScore" class="font-metric-readout text-[16px] font-bold text-primary-container">0</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-[10px] text-on-surface-variant uppercase">High Score</span>
+              <span id="lunaShooterBestScore" class="font-metric-readout text-[16px] font-bold text-tertiary-fixed">0</span>
+            </div>
+          </div>
+
+          <span id="lunaShooterWaveReached" class="font-hud-label-sm text-[11px] text-secondary font-medium mb-3">Threat Level 1</span>
+
+          <div class="flex flex-col gap-2 w-full max-w-[240px]">
+            <button onclick="restartLunaShooter()" class="w-full py-2.5 rounded-full planet-btn-primary font-headline-sm text-[13px] uppercase font-bold tracking-wider shadow-lg hover:scale-105 active:scale-95 transition-transform flex items-center justify-center gap-1.5">
+              <span class="material-symbols-outlined text-[18px]">replay</span>
+              <span>Relaunch (Reset to Base)</span>
+            </button>
+            <button onclick="closeLunaShooter()" class="w-full py-2 rounded-full bg-surface-container hover:bg-surface-container-high border border-white/10 font-headline-sm text-[12px] text-on-surface-variant uppercase font-medium transition-colors">
+              Return to Base
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls Row: Mobile Touch Controls & Desktop Tips -->
+      <div class="w-full flex flex-col gap-1.5">
+        <div class="flex items-center justify-between gap-2 w-full pt-1">
+          <div class="flex items-center gap-2">
+            <button id="btnShooterLeft" aria-label="Move Left" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-primary-container shadow-md active:bg-primary-container active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_back</span>
+            </button>
+            <button id="btnShooterRight" aria-label="Move Right" class="arcade-touch-btn w-12 h-11 rounded-xl bg-surface-container border border-white/10 flex items-center justify-center text-primary-container shadow-md active:bg-primary-container active:text-[#050816]">
+              <span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+            </button>
+          </div>
+          <button id="btnShooterFire" aria-label="Fire Laser" class="arcade-touch-btn flex-1 h-11 rounded-xl bg-gradient-to-r from-secondary to-primary-container text-[#050816] font-headline-sm text-[13px] font-bold uppercase tracking-wider flex items-center justify-center gap-1 shadow-[0_0_15px_rgba(208,188,255,0.4)] active:scale-95">
+            <span class="material-symbols-outlined text-[20px]">bolt</span>
+            <span>Fire Laser</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between text-[10px] text-on-surface-variant font-mono px-1">
+          <span>PC: Arrows / A-D + Space</span>
+          <span>Resets to Base upon death</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ========================================================= -->
   <!-- FIXED BOTTOM NAVIGATION BAR (MAX 5 TABS)                  -->
   <!-- ========================================================= -->
@@ -910,6 +1073,7 @@
   <script src="js/upgrades.js"></script>
   <script src="js/savings.js"></script>
   <script src="js/ui.js"></script>
+  <script src="js/shooter.js"></script>
 
 </body>
 </html>

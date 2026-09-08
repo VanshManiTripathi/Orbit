@@ -40,7 +40,8 @@ const DEFAULT_PLAYER = {
         depositsCountToday: 0 // Max 10 times a day
     },
     currentTheme: "earth",
-    soundEnabled: true
+    soundEnabled: true,
+    lunaShooterHighScore: 0
 };
 
 function checkDailyReset(p) {
@@ -77,6 +78,7 @@ function loadPlayer() {
                 unlockedPlanets: parsed.unlockedPlanets && parsed.unlockedPlanets.length ? parsed.unlockedPlanets : DEFAULT_PLAYER.unlockedPlanets,
                 discoveries: parsed.discoveries || [],
                 fuelReady: typeof parsed.fuelReady === "number" ? parsed.fuelReady : DEFAULT_PLAYER.fuelReady,
+                lunaShooterHighScore: typeof parsed.lunaShooterHighScore === "number" ? parsed.lunaShooterHighScore : 0,
                 currentTheme: parsed.currentTheme || (parsed.journey && parsed.journey.currentPlanet === "Mars" ? "mars" : (parsed.journey && parsed.journey.currentPlanet === "Moon" ? "moon" : "earth"))
             };
             checkDailyReset(p);
